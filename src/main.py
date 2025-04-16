@@ -42,6 +42,13 @@ def generate_page(from_path, template_path, dest_path, basepath="/"):
     html_node = markdown_to_html_node(markdown_content)
     html_content = html_node.to_html()
     
+    # Post-process HTML to fix PDF container divs
+    # This more specific regex looks for div elements containing iframe elements with PDF src
+    html_content = html_content.replace(
+        '<div><iframe src="', 
+        '<div class="pdf-container"><iframe src="'
+    )
+    
     # Extract title from markdown, use filename as fallback
     try:
         title = extract_title(markdown_content)
@@ -69,6 +76,7 @@ def generate_page(from_path, template_path, dest_path, basepath="/"):
 def generate_pages_recursive(content_dir, template_path, public_dir, basepath="/"):
     """
     Recursively generate HTML pages from markdown files in the content directory.
+    Also copies non-markdown files to maintain the same directory structure.
     
     Args:
         content_dir: Path to the content directory
@@ -99,6 +107,17 @@ def generate_pages_recursive(content_dir, template_path, public_dir, basepath="/
                 dest_path = os.path.join(public_dir, os.path.splitext(rel_path)[0], 'index.html')
             
             generate_page(content_path, template_path, dest_path, basepath)
+        else:
+            # Copy non-markdown files (like PDFs, images, etc.) to maintain the same structure
+            rel_path = os.path.relpath(content_path, 'content')
+            dest_path = os.path.join(public_dir, rel_path)
+            
+            # Create destination directory if it doesn't exist
+            os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+            
+            # Copy the file
+            print(f"Copying file: {content_path} -> {dest_path}")
+            shutil.copy2(content_path, dest_path)
 
 def main():
     # Get the basepath from command-line arguments, default to "/"

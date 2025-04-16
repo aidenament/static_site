@@ -2,17 +2,17 @@
 
 [< Back to Projects](/blog/projects)
 
-## A Probabilistic Approach to Optimization Problems in Machine Learning
+## Expected Distance of Random Interior Point of an N-cube to its Nearest Face
 
-This research explores probabilistic optimization methods that utilize expected value calculations to improve machine learning model performance, particularly in contexts with uncertainty.
+This generalizes the problem of finding the expected value from a random point in a unit square to its nearest face.
 
 ### View the Full Paper
 
 You can view the full paper below or [download it directly](/blog/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf).
 
-<div style="width: 100%; height: 700px; margin: 20px 0;">
-<embed src="/blog/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf" type="application/pdf" width="100%" height="100%">
-</div>
+```pdf
+/blog/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf
+```
 
 ### Abstract
 

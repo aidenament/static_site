@@ -7,6 +7,7 @@ class TextType(Enum):
     ITALIC = "italic"
     LINK = "link"
     IMAGE = "image"
+    PDF = "pdf"
 
 
 class TextNode:

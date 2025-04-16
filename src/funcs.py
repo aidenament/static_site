@@ -17,6 +17,13 @@ def text_node_to_html_node(text_node):
             return LeafNode(tag="a", value=text_node.text, props={"href": text_node.url})
         case TextType.IMAGE:
             return LeafNode(tag="img", value="", props={"src": text_node.url, "alt": text_node.text})
+        case TextType.PDF:
+            return LeafNode(tag="iframe", value="", props={
+                "src": text_node.url, 
+                "width": "100%", 
+                "height": "100%", 
+                "style": "border: none;"
+            })
         case _:
             raise ValueError(f"Unsupported text type: {text_node.text_type}")
         
@@ -118,6 +125,52 @@ def split_nodes_links(old_nodes):
     
     return new_nodes
 
+def split_nodes_pdfs(old_nodes):
+    """
+    Parse HTML-like PDF embed tags and convert them to PDF TextNodes.
+    Looks for patterns like: <embed src="path/to/file.pdf" type="application/pdf">
+    """
+    new_nodes = []
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
+            
+        if not old_node.text:  # Handle empty text case
+            continue
+            
+        # Find all PDF embed occurrences using regex
+        text = old_node.text
+        pdf_matches = list(re.finditer(r'<embed\s+src="([^"]+)"\s+[^>]*type="application/pdf"[^>]*>', text))
+        
+        if not pdf_matches:
+            # No PDFs found, check alternate format
+            pdf_matches = list(re.finditer(r'<embed\s+src="([^"]+\.pdf)"[^>]*>', text))
+            
+        if not pdf_matches:
+            # No PDF embeds found, keep the node as-is
+            new_nodes.append(old_node)
+            continue
+        
+        # Process text and insert PDF nodes
+        last_end = 0
+        for match in pdf_matches:
+            # Add text before the embed
+            if match.start() > last_end:
+                new_nodes.append(TextNode(text[last_end:match.start()], TextType.TEXT))
+                
+            # Add the PDF node
+            url = match.group(1)
+            new_nodes.append(TextNode("", TextType.PDF, url))
+            
+            last_end = match.end()
+        
+        # Add any remaining text after the last embed
+        if last_end < len(text):
+            new_nodes.append(TextNode(text[last_end:], TextType.TEXT))
+    
+    return new_nodes
+
 def apply_delimiter_to_all_nodes(nodes, delimiter, text_type):
     """Apply delimiter formatting to all nodes, including links and images."""
     result = []
@@ -148,9 +201,10 @@ def apply_delimiter_to_all_nodes(nodes, delimiter, text_type):
 
 def text_to_textnodes(text):
     nodes = [TextNode(text, TextType.TEXT)]
-    # First process links and images
+    # First process links, images, and PDFs
     nodes = split_nodes_links(nodes)
     nodes = split_nodes_images(nodes)
+    nodes = split_nodes_pdfs(nodes)
     
     # Process formatting on all nodes, including link text
     for j in range(len(nodes)):
@@ -216,6 +270,8 @@ def block_to_block_type(block):
     if re.match(r"^#{1,6} ", block):
         return BlockType.HEADING
     #check if the block starts with triple backticks and ends with triple backticks
+    elif block.startswith("```pdf") and block.endswith("```"):
+        return BlockType.PDF
     elif block.startswith("```") and block.endswith("```"):
         return BlockType.CODE
     #if every line starts with > and there is no empty line
@@ -257,6 +313,27 @@ def markdown_to_html_node(markdown):
                 code_content = "\n".join(block.split("\n")[1:-1])
                 code_node = LeafNode("code", code_content)
                 nodes.append(ParentNode("pre", [code_node]))
+            case block_type.PDF:
+                # Strip the leading ```pdf and trailing ```
+                pdf_path = block.split("\n")[1].strip()
+                # Create a div to contain the iframe with explicit styling
+                iframe = LeafNode(
+                    "iframe", 
+                    "", 
+                    {
+                        "src": pdf_path, 
+                        "width": "100%", 
+                        "height": "100%", 
+                        "style": "border: none; display: block; flex: 1;"
+                    }
+                )
+                # Create a parent container with proper class for styling
+                container = ParentNode(
+                    "div", 
+                    [iframe], 
+                    {"class": "pdf-container"}
+                )
+                nodes.append(container)
             case block_type.QUOTE:
                 # Remove the > prefix from each line
                 quote_text = "\n".join([line[2:] for line in block.split("\n")])

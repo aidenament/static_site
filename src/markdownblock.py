@@ -7,3 +7,4 @@ class BlockType(Enum):
     QUOTE = "quote"
     UNORDERED_LIST = "unordered_list"
     ORDERED_LIST = "ordered_list"
+    PDF = "pdf"  # New block type for PDF embeds

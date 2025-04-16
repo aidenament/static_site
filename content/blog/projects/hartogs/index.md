@@ -10,9 +10,9 @@ This research explores Hartogs' Extension Theorem, a fundamental result in the t
 
 You can view the full paper below or [download it directly](/blog/projects/hartogs/Hartogs__theorem.pdf).
 
-<div style="width: 100%; height: 700px; margin: 20px 0;">
-<embed src="/blog/projects/hartogs/Hartogs__theorem.pdf" type="application/pdf" width="100%" height="100%">
-</div>
+```pdf
+/blog/projects/hartogs/Hartogs__theorem.pdf
+```
 
 ### Abstract
 

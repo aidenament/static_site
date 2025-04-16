@@ -4,10 +4,9 @@ Scholar Athelete
 
 ![JRR Tolkien sitting](/images/tolkien.png)
 
-Here's the deal, **I made a website**.
+Here's the deal, **I made a website**. Well I made a markdown to html parser, then made a website. Why? Because I could.
 
 > “Loial, son of Arent, son of Halen, had secretly always wanted to be hasty.”
->
 >
 > --  Robert Jordan, A Memory of Light
 

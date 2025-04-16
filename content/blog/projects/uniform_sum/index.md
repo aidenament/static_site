@@ -1,8 +1,8 @@
-# Uniform Convergence and Infinite Series
+# Sum of I.I.D Random Variables
 
 [< Back to Projects](/blog/projects)
 
-## An Exploration of Uniform Convergence Properties in Infinite Series
+## Expected number of variables required to surpass 1
 
 This research investigates uniform convergence properties in infinite series and their applications in various mathematical contexts, particularly analyzing sums of uniform random variables.
 
@@ -10,9 +10,9 @@ This research investigates uniform convergence properties in infinite series and
 
 You can view the full paper below or [download it directly](/blog/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf).
 
-<div style="width: 100%; height: 700px; margin: 20px 0;">
-<embed src="/blog/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf" type="application/pdf" width="100%" height="100%">
-</div>
+```pdf
+/blog/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf
+```
 
 ### Abstract
 
