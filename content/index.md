@@ -12,7 +12,7 @@ Here's the deal, **I made a website**.
 ## Links
 
 - [Projects](/blog/projects)
-- [Current Reading](/blog/reading)
+- [Resume](/blog/resume)
 
 ## About Me
 
