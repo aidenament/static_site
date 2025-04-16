@@ -1,17 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 body {
   background-color: #121212; /* Material dark theme background */
   color: rgba(255, 255, 255, 0.87); /* Primary text - 87% white */
-  font-family: "Roboto", "Segoe UI", "Helvetica Neue", sans-serif; /* Use Roboto from template */
+  font-family: "Inter", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; /* Modern font stack with Inter as primary */
   line-height: 1.7; /* Increased slightly for readability */
   margin: 0;
   padding: 24px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  font-weight: 400; /* Default font weight for Inter */
+  -webkit-font-smoothing: antialiased; /* Better font rendering on WebKit */
+  -moz-osx-font-smoothing: grayscale; /* Better font rendering on macOS Firefox */
 }
 
 b, strong { /* Apply to strong as well */
-  font-weight: 500; /* Medium weight for emphasis */
+  font-weight: 600; /* Slightly heavier for Inter */
   color: rgba(255, 255, 255, 0.95); /* Emphasized text - 95% white */
 }
 
@@ -24,15 +29,15 @@ h6 {
   color: rgba(255, 255, 255, 0.95); /* Headline text - 95% white */
   margin-top: 32px; /* Increased top margin */
   margin-bottom: 16px; /* Adjusted bottom margin */
-  font-weight: 400; /* Regular weight for headings */
-  letter-spacing: -0.25px;
+  font-weight: 600; /* Medium-bold weight for headings with Inter */
+  letter-spacing: -0.02em; /* Tighter letter spacing for modern look */
   line-height: 1.3;
   /* Removed transition: color 0.3s ease; */
 }
 
 h1 {
   font-size: 2.5em; /* Slightly smaller */
-  color: #1a3c6e; /* Dark blue highlight instead of purple */
+  color: #0088ff; /* Bright blue highlight */
   /* Removed gradient background */
   -webkit-background-clip: initial;
   -webkit-text-fill-color: initial;
@@ -41,36 +46,34 @@ h1 {
 
 h2 {
   font-size: 2em;
-  color: #1a3c6e; /* Dark blue highlight */
+  color: #0088ff; /* Bright blue highlight */
 }
 
 h3 {
   font-size: 1.5em;
-  color: #4a83c7; /* Lighter blue accent instead of teal */
+  color: #47a3ff; /* Lighter bright blue accent */
 }
 
 h4,
 h5,
 h6 {
   font-size: 1.2em;
-  color: #4a83c7; /* Lighter blue accent */
+  color: #47a3ff; /* Lighter bright blue accent */
 }
 
 a {
-  color: #1a3c6e; /* Dark blue highlight */
+  color: #0088ff; /* Bright blue highlight */
   text-decoration: none;
-  border-bottom: 1px solid rgba(26, 60, 110, 0.5); /* Subtle underline with dark blue */
+  border-bottom: 1px solid rgba(0, 136, 255, 0.5); /* Subtle underline with bright blue */
   transition: all 0.2s ease;
   padding-bottom: 2px; /* Adjusted padding */
   /* Removed position: relative; */
 }
 
 a:hover {
-  color: #4a83c7; /* Lighter blue accent */
-  border-color: #4a83c7; /* Match hover color */
+  color: #47a3ff; /* Lighter bright blue accent */
+  border-color: #47a3ff; /* Match hover color */
 }
-
-/* Removed link ::after pseudo-element for underline animation */
 
 ul,
 ol {
@@ -110,7 +113,7 @@ pre {
 
 blockquote {
   background-color: #1e1e1e; /* Elevation surface +1dp */
-  border-left: 4px solid #4a83c7; /* Lighter blue accent instead of teal */
+  border-left: 4px solid #47a3ff; /* Lighter bright blue accent */
   padding: 1em 1.5em;
   margin: 24px 0;
   border-radius: 0 4px 4px 0; /* Standard Material radius */
