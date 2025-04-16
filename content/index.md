@@ -4,16 +4,12 @@ Scholar Athelete
 
 ![JRR Tolkien sitting](/images/tolkien.png)
 
-Here's the deal, **I made a website**. Well I made a markdown to html parser, then made a website. Why? Because I could.
+Here's the deal, **I made a website**. 
+Well I made a markdown to html parser, then made a website. Why? Because I could.
 
 > “Loial, son of Arent, son of Halen, had secretly always wanted to be hasty.”
 >
 > --  Robert Jordan, A Memory of Light
-
-## Links
-
-- [Projects](/blog/projects)
-- [Resume](/blog/resume)
 
 ## About Me
 
@@ -24,6 +20,11 @@ My time at UCLA was split between academics and athletics - I rowed for four yea
 After graduation, I joined a small startup as a **machine learning engineer** focusing on computer vision applications. I still am involved in rowing: I have transitioned from being an athlete to an assistant coach for the Marin Rowing U17 boys team. 
 
 It is incredibly rewarding to work with younger athletes and see them engage with the sport that taught me so much about discipline and teamwork. The balance between technical work during the week and coaching on the water provides a fulfilling rhythm to my post-college life.
+
+## Links
+
+- [Projects](/blog/projects)
+- [Resume](/blog/resume)
 
 ### Reading List
 

@@ -20,21 +20,21 @@
 
 ## Research Experience
 
-### Prompt Engineering in LLMs | *Jan 2024 - Mar 2024*
+### Prompt Engineering in LLMs | Jan 2024 - Mar 2024
 
 - Conducted research on prompt modeling using PHI2, a state-of-the-art small Large Language Model, to evaluate the fairness and factualness of claims on the UniLC dataset
 - Increased model accuracy from 0.69 to 0.74 with novel prompting techniques
 - Implemented and tested various evaluation techniques including zero-shot, few-shot, and evidence generation methods to improve model performance
 - Utilized evidence generation from PHI2 as well as Mixtral 8x7B to enhance PHI2's claim assessment capabilities
 
-### Deep Learning Inference for DNA Sequences | *Mar 2023 - Jun 2023*
+### Deep Learning Inference for DNA Sequences | Mar 2023 - Jun 2023
 
 - Conducted research with deep learning models to predict which DNA sequences proteins will bind to
 - Leveraged contemporary ML techniques such as using modified residual networks, Bayesian hyper-parameter tuning through Weights and Biases, and slight weight decay in order to classify DNA sequences with near state of the art accuracy
 - Trained the model on vast genomic datasets, enabling the capture of highly intricate patterns
 - Implemented advanced data augmentation to increase the amount of available data and improve model generalization
 
-### Modeling Homeless Population Dynamics | *Mar 2021 - Jan 2022*
+### Modeling Homeless Population Dynamics | Mar 2021 - Jan 2022
 
 - Collaborated with a team of 5 researchers to develop a model estimating entry and exit rates of the homeless population based on observational data collected by civil workers
 - Coded the model in C++ and implemented multithreading, enabling simulations spanning over a year
@@ -42,7 +42,7 @@
 
 ## Leadership
 
-### Co-Founder, AI Safety Club at UCLA | *Aug 2022 - Present*
+### Co-Founder, AI Safety Club at UCLA | Aug 2022 - Present
 
 - Spearheaded the establishment of UCLA's first student-led organization dedicated to the responsible development of AI and the mitigation of potential risks from advanced AI systems
 - Registered the club as a 501(c)(3) nonprofit corporation and raised over $15,000 in funding from Open Philanthropy to support the clubs educational and research initiatives

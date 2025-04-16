@@ -65,15 +65,31 @@ h6 {
 a {
   color: #0088ff; /* Bright blue highlight */
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 136, 255, 0.5); /* Subtle underline with bright blue */
-  transition: all 0.2s ease;
-  padding-bottom: 2px; /* Adjusted padding */
-  /* Removed position: relative; */
+  position: relative; /* Position relative for absolute positioning of pseudo-element */
+  padding-bottom: 2px; /* Space for the underline */
+  transition: color 0.2s ease; /* Smooth transition for color change only */
+  display: inline-block; /* Required for proper animation effect */
+  border-bottom: none; /* Remove the old underline style */
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0; /* Start with 0 width */
+  height: 1px; /* Height of the underline */
+  background-color: rgba(0, 136, 255, 0.5); /* Bright blue with transparency for underline */
+  transition: width 0.3s ease; /* Animate only the width property */
 }
 
 a:hover {
   color: #47a3ff; /* Lighter bright blue accent */
-  border-color: #47a3ff; /* Match hover color */
+}
+
+a:hover::after {
+  width: 100%; /* Expand to full width on hover */
+  background-color: #47a3ff; /* Change color to match hover state */
 }
 
 ul,
