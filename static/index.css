@@ -32,7 +32,7 @@ h6 {
 
 h1 {
   font-size: 2.5em; /* Slightly smaller */
-  color: #bb86fc; /* Material primary color - light purple */
+  color: #1a3c6e; /* Dark blue highlight instead of purple */
   /* Removed gradient background */
   -webkit-background-clip: initial;
   -webkit-text-fill-color: initial;
@@ -41,33 +41,33 @@ h1 {
 
 h2 {
   font-size: 2em;
-  color: #bb86fc; /* Material primary color */
+  color: #1a3c6e; /* Dark blue highlight */
 }
 
 h3 {
   font-size: 1.5em;
-  color: #03dac6; /* Material secondary color - teal */
+  color: #4a83c7; /* Lighter blue accent instead of teal */
 }
 
 h4,
 h5,
 h6 {
   font-size: 1.2em;
-  color: #03dac6; /* Material secondary color */
+  color: #4a83c7; /* Lighter blue accent */
 }
 
 a {
-  color: #bb86fc; /* Material primary color */
+  color: #1a3c6e; /* Dark blue highlight */
   text-decoration: none;
-  border-bottom: 1px solid rgba(187, 134, 252, 0.5); /* Subtle underline */
+  border-bottom: 1px solid rgba(26, 60, 110, 0.5); /* Subtle underline with dark blue */
   transition: all 0.2s ease;
   padding-bottom: 2px; /* Adjusted padding */
   /* Removed position: relative; */
 }
 
 a:hover {
-  color: #03dac6; /* Material secondary color */
-  border-color: #03dac6; /* Match hover color */
+  color: #4a83c7; /* Lighter blue accent */
+  border-color: #4a83c7; /* Match hover color */
 }
 
 /* Removed link ::after pseudo-element for underline animation */
@@ -110,7 +110,7 @@ pre {
 
 blockquote {
   background-color: #1e1e1e; /* Elevation surface +1dp */
-  border-left: 4px solid #03dac6; /* Material secondary color */
+  border-left: 4px solid #4a83c7; /* Lighter blue accent instead of teal */
   padding: 1em 1.5em;
   margin: 24px 0;
   border-radius: 0 4px 4px 0; /* Standard Material radius */

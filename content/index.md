@@ -1,4 +1,5 @@
 # Aiden Ament
+
 Scholar Athelete
 
 ![JRR Tolkien sitting](/images/tolkien.png)
@@ -6,7 +7,8 @@ Scholar Athelete
 Here's the deal, **I made a website**.
 
 > “Loial, son of Arent, son of Halen, had secretly always wanted to be hasty.”
-> \n
+>
+>
 > --  Robert Jordan, A Memory of Light
 
 ## Links
@@ -29,6 +31,7 @@ It is incredibly rewarding to work with younger athletes and see them engage wit
 In my free time I like to read. I recently finished the fantasy epic _**The Wheel of Time**_ by Robert Jordan, and am currently working my way through _**The Stormlight Archive**_ by Brandon Sanderson. 
 
 **Books on my reading list:**
+
 - _Mistborn_ by Brandon Sanderson
 - _Red Rising_ by Pierce Brown
 - _Will of the Many_ by James Islington
