@@ -8,9 +8,9 @@ Welcome to my projects page! Here you'll find a collection of my work in mathema
 
 ## Project Directory
 
-- [**Sum of Uniform Random Variables**](/blog/projects/uniform_sum) - Finds the expected number of i.i.d variables uniformly distributed betweeen 0 and 1 needed to be sumed in order to exceed one. Very satisfying answer.
-- [**Hartogs' Extension Theorem**](/blog/projects/hartogs) - A study of holomorphic functions in several complex variables.
-- [**Conformal Mapping Techniques**](/blog/projects/conformal) - Applications of conformal mappings of Complex Brownian motion.
-- [**Expected Value of A Random Point in Square to it's Nearest Edge**](/blog/projects/expected_val) - This project finds the expected distance between a point chosen at random in a unit square to the nearest edge.
+- [Sum of Uniform Random Variables](/blog/projects/uniform_sum) - Finds the expected number of i.i.d variables uniformly distributed betweeen 0 and 1 needed to be sumed in order to exceed one. Very satisfying answer.
+- [Hartogs' Extension Theorem](/blog/projects/hartogs) - A study of holomorphic functions in several complex variables.
+- [Conformal Mapping Techniques](/blog/projects/conformal) - Applications of conformal mappings of Complex Brownian motion.
+- [Expected Value of A Random Point in Square to it's Nearest Edge](/blog/projects/expected_val) - This project finds the expected distance between a point chosen at random in a unit square to the nearest edge.
 
 Each project page contains detailed explanations and the mathematical foundations behind my work. Feel free to explore these topics and reach out if you have questions.

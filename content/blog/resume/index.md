@@ -1,6 +1,7 @@
 # Aiden Ament
 
-**LinkedIn:** [aidenament](https://www.linkedin.com/in/aidenament)
+**LinkedIn:** [aidenament](https://www.linkedin.com/in/aidenament) <br>
+**Github:** [aidenament](https://github.com/aidenament)
 
 ## Summary
 
