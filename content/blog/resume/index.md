@@ -12,7 +12,7 @@
 
 ## Current Position
 
-### Machine Learning Engineer at Nano-IC | *Jun 2024 - Present*
+### Machine Learning Engineer at Nano-IC | Jun 2024 - Present
 
 - Use PyTorch to develop novel neural network architectures for computer vision applications
 - Use compile optimizations and Nvidia Nsight to optimize performance on hardware

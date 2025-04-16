@@ -28,15 +28,17 @@ It is incredibly rewarding to work with younger athletes and see them engage wit
 
 ### Reading List
 
-In my free time I like to read. I recently finished the fantasy epic _**The Wheel of Time**_ by Robert Jordan, and am currently working my way through _**The Stormlight Archive**_ by Brandon Sanderson. 
+![stormblessed](/images/kaladin.jpg)
+
+In my free time I like to read. I recently finished the fantasy epic **The Wheel of Time** by _Robert Jordan_, and am currently working my way through **The Stormlight Archive** by _Brandon Sanderson_. 
 
 **Books on my reading list:**
 
-- _Mistborn_ by Brandon Sanderson
-- _Red Rising_ by Pierce Brown
-- _Will of the Many_ by James Islington
-- _Dungeon Crawler Carl_ by Matt Dinniman
-- _The Witcher_ by Andrzej Sapkowski
-- _Dune_ by Frank Herbert
+- **Mistborn** by _Brandon Sanderson_
+- **Red Rising** _by Pierce Brown_
+- **Will of the Many** by _James Islington_
+- **Dungeon Crawler Carl** by _Matt Dinniman_
+- **The Witcher** by _Andrzej Sapkowski_
+- **Dune** by _Frank Herbert_
 
 Want to hire me? [Contact me here](/contact).

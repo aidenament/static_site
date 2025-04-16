@@ -2,7 +2,7 @@
 
 [< Back Home](/)
 
-![Tom Bombadil image](/images/tom.png)
+![Tom Bombadil image](/images/abstract.jpg)
 
 Welcome to my projects page! Here you'll find a collection of my work in mathematics, computer science, and machine learning. Each project represents a unique challenge I've tackled or random problem I decided to persue.
 
