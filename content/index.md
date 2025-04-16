@@ -6,7 +6,7 @@ Scholar Athelete
 Here's the deal, **I made a website**.
 
 > “Loial, son of Arent, son of Halen, had secretly always wanted to be hasty.”
->
+> \n
 > --  Robert Jordan, A Memory of Light
 
 ## Links
