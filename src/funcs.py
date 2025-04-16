@@ -46,35 +46,40 @@ def extract_markdown_images(text):
 
 def split_nodes_images(old_nodes):
     new_nodes = []
-    for node in old_nodes:
-        if node.text_type != TextType.TEXT:
-            new_nodes.append(node)
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
             continue
             
-        if not node.text:  # Handle empty text case
+        if not old_node.text:  # Handle empty text case
             continue
             
-        # Use regex to find image patterns ![alt](url)
-        parts = []
+        # Find all image occurrences using regex
+        text = old_node.text
+        image_matches = list(re.finditer(r'!\[(.*?)\]\((.*?)\)', text))
+        
+        if not image_matches:
+            # No images found, keep the node as-is
+            new_nodes.append(old_node)
+            continue
+        
+        # Process text and insert image nodes
         last_end = 0
-        for match in re.finditer(r'!\[(.*?)\]\((.*?)\)', node.text):
+        for match in image_matches:
+            # Add text before the image
             if match.start() > last_end:
-                # Add text before the match
-                parts.append((node.text[last_end:match.start()], None, None))
-            # Add the image with alt text and URL
-            parts.append((match.group(1), TextType.IMAGE, match.group(2)))
+                new_nodes.append(TextNode(text[last_end:match.start()], TextType.TEXT))
+                
+            # Add the image node
+            alt_text = match.group(1)
+            url = match.group(2)
+            new_nodes.append(TextNode(alt_text, TextType.IMAGE, url))
+            
             last_end = match.end()
         
-        # Add any remaining text after the last match
-        if last_end < len(node.text):
-            parts.append((node.text[last_end:], None, None))
-        
-        # Create TextNodes from the parts
-        for text, text_type, url in parts:
-            if text_type == TextType.IMAGE:
-                new_nodes.append(TextNode(text, text_type, url))
-            elif text:  # Only add non-empty text nodes
-                new_nodes.append(TextNode(text, TextType.TEXT))
+        # Add any remaining text after the last image
+        if last_end < len(text):
+            new_nodes.append(TextNode(text[last_end:], TextType.TEXT))
     
     return new_nodes
 
@@ -88,10 +93,11 @@ def split_nodes_links(old_nodes):
         if not node.text:  # Handle empty text case
             continue
             
-        # Use regex to find link patterns [text](url)
+        # Use regex to find link patterns [text](url) but not image patterns ![text](url)
         parts = []
         last_end = 0
-        for match in re.finditer(r'\[(.*?)\]\((.*?)\)', node.text):
+        # Modified regex to exclude image markdown by checking there's no ! before [
+        for match in re.finditer(r'(?<!!)\[(.*?)\]\((.*?)\)', node.text):
             if match.start() > last_end:
                 # Add text before the match
                 parts.append((node.text[last_end:match.start()], None, None))
@@ -112,15 +118,88 @@ def split_nodes_links(old_nodes):
     
     return new_nodes
 
+def apply_delimiter_to_all_nodes(nodes, delimiter, text_type):
+    """Apply delimiter formatting to all nodes, including links and images."""
+    result = []
+    for node in nodes:
+        if node.text_type == TextType.TEXT:
+            # For text nodes, use the existing split_nodes_delimiter function
+            result.extend(split_nodes_delimiter([node], delimiter, text_type))
+        elif node.text_type in [TextType.LINK, TextType.IMAGE]:
+            # For links and images, apply formatting to their text content
+            # We need to preserve the URL
+            parts = node.text.split(delimiter)
+            if len(parts) > 1:  # If there's at least one delimiter
+                for i in range(len(parts)):
+                    if i % 2 == 0 and parts[i]:  # Text outside delimiter
+                        result.append(TextNode(parts[i], node.text_type, node.url))
+                    elif i % 2 == 1:  # Text inside delimiter - apply formatting
+                        # Create a new node with both the link/image type and the formatting
+                        # We're keeping the URL from the original node
+                        formatted_node = TextNode(parts[i], text_type, node.url if i == 0 else None)
+                        result.append(formatted_node)
+            else:
+                # No delimiter found, keep the node as is
+                result.append(node)
+        else:
+            # For other node types, keep them as they are
+            result.append(node)
+    return result
+
 def text_to_textnodes(text):
     nodes = [TextNode(text, TextType.TEXT)]
-    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
-    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
-    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
-    nodes = split_nodes_images(nodes)
+    # First process links and images
     nodes = split_nodes_links(nodes)
-    return nodes
-
+    nodes = split_nodes_images(nodes)
+    
+    # Process formatting on all nodes, including link text
+    for j in range(len(nodes)):
+        node = nodes[j]
+        if node.text_type in [TextType.LINK, TextType.IMAGE]:
+            # For link/image nodes, we need to process the text content for formatting
+            # but keep the node type and URL
+            link_text = node.text
+            link_url = node.url
+            link_type = node.text_type
+            
+            # Apply formatting to the link text
+            temp_nodes = [TextNode(link_text, TextType.TEXT)]
+            temp_nodes = split_nodes_delimiter(temp_nodes, "**", TextType.BOLD)
+            temp_nodes = split_nodes_delimiter(temp_nodes, "_", TextType.ITALIC)
+            temp_nodes = split_nodes_delimiter(temp_nodes, "`", TextType.CODE)
+            
+            # Create a new HTML node with proper formatting inside the link
+            if len(temp_nodes) == 1 and temp_nodes[0].text_type == TextType.TEXT:
+                # No formatting found, keep the original node
+                pass
+            else:
+                # Replace the original node with a formatted version
+                formatted_text = ""
+                for temp_node in temp_nodes:
+                    if temp_node.text_type == TextType.BOLD:
+                        formatted_text += f"<b>{temp_node.text}</b>"
+                    elif temp_node.text_type == TextType.ITALIC:
+                        formatted_text += f"<i>{temp_node.text}</i>"
+                    elif temp_node.text_type == TextType.CODE:
+                        formatted_text += f"<code>{temp_node.text}</code>"
+                    else:
+                        formatted_text += temp_node.text
+                
+                # Update the node with formatted text
+                nodes[j] = TextNode(formatted_text, link_type, link_url)
+    
+    # Now process regular text nodes
+    new_nodes = []
+    for node in nodes:
+        if node.text_type == TextType.TEXT:
+            processed_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+            processed_nodes = split_nodes_delimiter(processed_nodes, "_", TextType.ITALIC)
+            processed_nodes = split_nodes_delimiter(processed_nodes, "`", TextType.CODE)
+            new_nodes.extend(processed_nodes)
+        else:
+            new_nodes.append(node)
+    
+    return new_nodes
 
 def markdown_to_blocks(markdown):
     processed_blocks = []
