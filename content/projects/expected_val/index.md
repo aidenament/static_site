@@ -1,6 +1,6 @@
 # Expected Value Optimization
 
-[< Back to Projects](/blog/projects)
+[< Back to Projects](/projects)
 
 ## Expected Distance of Random Interior Point of an N-cube to its Nearest Face
 
@@ -11,7 +11,7 @@ This generalizes the problem of finding the expected value from a random point i
 You can view the full paper below or [download it directly](/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf).
 
 ```pdf
-/blog/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf
+/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf
 ```
 
 ### Abstract

@@ -1,6 +1,6 @@
 # Conformal Mapping Techniques
 
-[< Back to Projects](/blog/projects)
+[< Back to Projects](/projects)
 
 ## Applications of Conformal Mappings in Solving Boundary Value Problems
 
@@ -11,7 +11,7 @@ This research explores how conformal mappings perserve Brownian motion. Conforma
 You can view the full paper below or [download it directly](/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf).
 
 ```pdf
-/blog/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf
+/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf
 ```
 
 ### Abstract

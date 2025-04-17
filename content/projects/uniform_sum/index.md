@@ -1,6 +1,6 @@
 # Sum of I.I.D Random Variables
 
-[< Back to Projects](/blog/projects)
+[< Back to Projects](/projects)
 
 ## Expected number of variables required to surpass 1
 
@@ -11,7 +11,7 @@ This research investigates uniform convergence properties in infinite series and
 You can view the full paper below or [download it directly](/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf).
 
 ```pdf
-/blog/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf
+/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf
 ```
 
 ### Abstract

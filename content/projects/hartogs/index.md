@@ -1,6 +1,6 @@
 # Hartogs' Extension Theorem
 
-[< Back to Projects](/blog/projects)
+[< Back to Projects](/projects)
 
 ## A Study of Holomorphic Functions in Several Complex Variables
 
@@ -11,7 +11,7 @@ This research explores Hartogs' Extension Theorem, a fundamental result in the t
 You can view the full paper below or [download it directly](/projects/hartogs/Hartogs__theorem.pdf).
 
 ```pdf
-/blog/projects/hartogs/Hartogs__theorem.pdf
+/projects/hartogs/Hartogs__theorem.pdf
 ```
 
 ### Abstract
