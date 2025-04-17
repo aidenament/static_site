@@ -2,7 +2,7 @@
 
 [< Back Home](/)
 
-**LinkedIn:** [aidenament](https://www.linkedin.com/in/aidenament) <br>
+**LinkedIn:** [aidenament](https://www.linkedin.com/in/aiden-ament-79032bb8/) <br>
 **Github:** [aidenament](https://github.com/aidenament)
 
 ## Summary
