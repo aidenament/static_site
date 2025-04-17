@@ -8,7 +8,7 @@ This research explores Hartogs' Extension Theorem, a fundamental result in the t
 
 ### View the Full Paper
 
-You can view the full paper below or [download it directly](/blog/projects/hartogs/Hartogs__theorem.pdf).
+You can view the full paper below or [download it directly](/projects/hartogs/Hartogs__theorem.pdf).
 
 ```pdf
 /blog/projects/hartogs/Hartogs__theorem.pdf

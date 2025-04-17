@@ -8,7 +8,7 @@ This research investigates uniform convergence properties in infinite series and
 
 ### View the Full Paper
 
-You can view the full paper below or [download it directly](/blog/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf).
+You can view the full paper below or [download it directly](/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf).
 
 ```pdf
 /blog/projects/uniform_sum/Sum_of_Uniform_Random_Variables.pdf

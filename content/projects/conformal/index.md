@@ -8,7 +8,7 @@ This research explores how conformal mappings perserve Brownian motion. Conforma
 
 ### View the Full Paper
 
-You can view the full paper below or [download it directly](/blog/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf).
+You can view the full paper below or [download it directly](/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf).
 
 ```pdf
 /blog/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf
