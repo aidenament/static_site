@@ -61,6 +61,7 @@ def generate_page(from_path, template_path, dest_path, basepath="/"):
     # Replace placeholders in template
     filled_template = template_content.replace("{{ Title }}", title)
     filled_template = filled_template.replace("{{ Content }}", html_content)
+    filled_template = filled_template.replace("{{basepath}}", basepath)
     
     # Replace absolute URLs with basepath-prefixed URLs
     filled_template = filled_template.replace('href="/', f'href="{basepath}')
