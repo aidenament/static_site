@@ -23,8 +23,8 @@ It is incredibly rewarding to work with younger athletes and see them engage wit
 
 ## Links
 
-- [Projects](/blog/projects)
-- [Resume](/blog/resume)
+- [Projects](/projects)
+- [Resume](/resume)
 
 ### Reading List
 
