@@ -1,24 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Roboto+Mono&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+
+@font-face {
+  font-family: 'Norwester';
+  src: url('fonts/norwester.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 body {
-  background-color: #121212; /* Material dark theme background */
-  color: rgba(255, 255, 255, 0.87); /* Primary text - 87% white */
-  font-family: "Playfair Display", serif; /* Changed to Playfair Display */
-  line-height: 1.7; /* Increased slightly for readability */
+  background-color: #484E60; /* Lighter blue-gray background */
+  color: #ffffff; /* Darker blue-gray text */
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.7;
   margin: 0;
   padding: 24px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  font-weight: 400; /* Default font weight */
-  -webkit-font-smoothing: antialiased; /* Better font rendering on WebKit */
-  -moz-osx-font-smoothing: grayscale; /* Better font rendering on macOS Firefox */
-  letter-spacing: 0.01em; /* Slightly increased letter spacing for readability on dark backgrounds */
+  font-weight: 300; /* Light font weight */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.01em;
 }
 
-b, strong { /* Apply to strong as well */
-  font-weight: 600; /* Slightly heavier for emphasis */
-  color: rgba(255, 255, 255, 0.95); /* Emphasized text - 95% white */
+b, strong {
+  font-weight: 500;
+  color: #ffffff; /* Even darker blue-gray for emphasis */
 }
 
 h1,
@@ -27,49 +35,45 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Outfit", "Space Grotesk", sans-serif; /* Use Outfit for headings */
-  color: rgba(255, 255, 255, 0.95); /* Headline text - 95% white */
-  margin-top: 32px; /* Increased top margin */
-  margin-bottom: 16px; /* Adjusted bottom margin */
-  font-weight: 600; /* Medium-bold weight for headings */
-  letter-spacing: -0.03em; /* Tighter letter spacing for modern look */
+  font-family: "Norwester", sans-serif;
+  color: #ffffff; /* Dark blue-gray heading text */
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-weight: normal;
+  letter-spacing: 0.02em;
   line-height: 1.2;
 }
 
 h1 {
-  font-size: 2.5em; /* Slightly smaller */
-  color: #0088ff; /* Bright blue highlight */
-  /* Removed gradient background */
-  -webkit-background-clip: initial;
-  -webkit-text-fill-color: initial;
-  background-clip: initial;
+  font-size: 2.5em;
+  color: #ffffff;
 }
 
 h2 {
   font-size: 2em;
-  color: #0088ff; /* Bright blue highlight */
+  color: #ffffff;
 }
 
 h3 {
   font-size: 1.5em;
-  color: #47a3ff; /* Lighter bright blue accent */
+  color: #ffffff;
 }
 
 h4,
 h5,
 h6 {
   font-size: 1.2em;
-  color: #47a3ff; /* Lighter bright blue accent */
+  color: #ffffff;
 }
 
 a {
-  color: #0088ff; /* Bright blue highlight */
+  color: #3498db; /* Brighter blue for links */
   text-decoration: none;
-  position: relative; /* Position relative for absolute positioning of pseudo-element */
-  padding-bottom: 2px; /* Space for the underline */
-  transition: color 0.2s ease; /* Smooth transition for color change only */
-  display: inline-block; /* Required for proper animation effect */
-  border-bottom: none; /* Remove the old underline style */
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+  display: inline-block;
+  border-bottom: none;
 }
 
 a::after {
@@ -77,25 +81,25 @@ a::after {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 0; /* Start with 0 width */
-  height: 1px; /* Height of the underline */
-  background-color: rgba(0, 136, 255, 0.5); /* Bright blue with transparency for underline */
-  transition: width 0.3s ease; /* Animate only the width property */
+  width: 0;
+  height: 1px;
+  background-color: rgba(52, 152, 219, 0.5);
+  transition: width 0.3s ease;
 }
 
 a:hover {
-  color: #47a3ff; /* Lighter bright blue accent */
+  color: #2980b9;
 }
 
 a:hover::after {
-  width: 100%; /* Expand to full width on hover */
-  background-color: #47a3ff; /* Change color to match hover state */
+  width: 100%;
+  background-color: #2980b9;
 }
 
 ul,
 ol {
   padding-left: 24px;
-  color: rgba(255, 255, 255, 0.87); /* Primary text */
+  color: #ffffff;
 }
 
 li {
@@ -103,48 +107,49 @@ li {
 }
 
 code {
-  background-color: #1e1e1e; /* Elevation surface +1dp */
-  border-radius: 4px; /* Standard Material radius */
-  color: #f48fb1; /* Light pink for code, common in dark themes */
+  background-color: #484E60;
+  border-radius: 4px;
+  color: #e74c3c;
   padding: 0.4em 0.6em;
-  font-family: "Roboto Mono", monospace; /* Use Roboto Mono from template */
+  font-family: "Montserrat", monospace;
   font-size: 0.9em;
+  font-weight: 400;
 }
 
 pre code {
   padding: 0;
-  background-color: transparent; /* Code inside pre shouldn't have its own background */
-  color: inherit; /* Inherit color from pre */
+  background-color: transparent;
+  color: inherit;
 }
 
 pre {
-  background-color: #1e1e1e; /* Elevation surface +1dp */
-  border-radius: 8px; /* Slightly larger radius for blocks */
+  background-color: #484E60;
+  border-radius: 8px;
   padding: 1.2em;
   overflow: auto;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Material shadow */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
   margin: 24px 0;
-  border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
-  color: rgba(255, 255, 255, 0.87); /* Ensure text inside pre is readable */
+  border: 1px solid rgba(44, 62, 80, 0.1);
+  color: #2c3e50;
 }
 
 blockquote {
-  background-color: #1e1e1e; /* Elevation surface +1dp */
-  border-left: 4px solid #47a3ff; /* Lighter bright blue accent */
+  background-color: #242a43;
+  border-left: 4px solid #3498db;
   padding: 1em 1.5em;
   margin: 24px 0;
-  border-radius: 0 4px 4px 0; /* Standard Material radius */
-  color: rgba(255, 255, 255, 0.87); /* Primary text */
+  border-radius: 0 4px 4px 0;
+  color: #ffffff;
   font-style: italic;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14); /* Material shadow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 img {
   max-width: 100%;
   height: auto;
-  border-radius: 8px; /* Consistent radius */
+  border-radius: 8px;
   border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Material shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 16px 0;
   transition: transform 0.3s ease;
 }
@@ -159,49 +164,47 @@ img:hover {
 }
 
 ::-webkit-scrollbar-track {
-  background: #121212; /* Match body background */
-  border-radius: 4px; /* Consistent radius */
+  background: #f5f7fa;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.3); /* Subtle scrollbar thumb */
-  border-radius: 4px; /* Consistent radius */
-  border: 2px solid #121212; /* Create padding */
+  background-color: rgba(44, 62, 80, 0.3);
+  border-radius: 4px;
+  border: 2px solid #f5f7fa;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.5); /* Slightly more visible on hover */
+  background-color: rgba(44, 62, 80, 0.5);
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) #121212; /* Firefox scrollbar */
+  scrollbar-color: rgba(44, 62, 80, 0.3) #f5f7fa;
 }
 
 ::-webkit-scrollbar-corner {
-  background: #121212; /* Match body background */
+  background: #f5f7fa;
 }
 
-/* PDF container styling */
 .pdf-container {
   width: 100%;
-  height: 80vh; /* 80% of viewport height */
-  min-height: 600px; /* Ensure minimum height even on small screens */
+  height: 80vh;
+  min-height: 600px;
   margin: 30px 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(44, 62, 80, 0.15);
   border-radius: 8px;
-  overflow: hidden; /* Ensures the iframe doesn't overflow */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  display: flex; /* Use flexbox to help child iframe fill space */
-  flex-direction: column; /* Stack children vertically */
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
 }
 
-/* Add elevation surface for the main content area */
 article {
-  background-color: #1d1d1d; /* Elevation surface +2dp */
+  background-color: #303745; /* White background for content */
   border-radius: 8px;
   padding: 24px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Material shadow */
-  margin-top: 16px; /* Add some space above the article */
-  margin-bottom: 16px; /* Add some space below the article */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+  margin-top: 16px;
+  margin-bottom: 16px;
 }

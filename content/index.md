@@ -1,9 +1,9 @@
 # Aiden Ament
 
 Former<br>
-**Scholar Athelete**
+**Scholar Athlete**
 
-![JRR Tolkien sitting](/images/tolkien.png)
+![Aiden Smile](/images/rowing_smile.png)
 
 Here's the deal, **I made a website**. 
 Well I made a markdown to html parser, then made a website. Why? Because I could.
@@ -14,6 +14,8 @@ Well I made a markdown to html parser, then made a website. Why? Because I could
 ## About Me
 
 I recently graduated from UCLA with a degree in **math and computer science**. My studies included a range of pure and applied topics, but one highlight of my time at UCLA was studying complex analysis with Professor Terence Tao. 
+
+![Aiden Rowing](/images/rowing_action.png)
 
 My time at UCLA was split between academics and athletics - I rowed for four years on the UCLA team. Outside of classes and practice, I worked with friends to start the [AI Safety club](https://aisafetyatucla.org/), creating a space to teach the importance of safe AI development and pursue safety related projects.
 
