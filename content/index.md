@@ -9,7 +9,7 @@ Here's the deal, **I made a website**.
 Well I made a markdown to html parser, then made a website. Why? Because I could.
 
 > “All we have to decide is what to do with the time that is given to us.” <br>
-> --  J.R.R Tolkien, The Lord of the Rings
+> -- The Lord of the Rings
 
 ## About Me
 
@@ -32,7 +32,7 @@ It is incredibly rewarding to work with athletes and see them engage with the sp
 
 ![stormblessed](/images/kaladin.jpg)
 
-In my free time I like to read. I recently finished the fantasy epic **The Wheel of Time** by _Robert Jordan_, and am currently working my way through **The Stormlight Archive** by _Brandon Sanderson_. 
+In my free time I like to read. I recently finished the fantasy epic **The Wheel of Time** by _Robert Jordan_ and **The Stormlight Archive** by _Brandon Sanderson_. I am currently working my way through **Mistborn**.
 
 **Books on my reading list:**
 
@@ -40,7 +40,6 @@ In my free time I like to read. I recently finished the fantasy epic **The Wheel
 - **Red Rising** _by Pierce Brown_
 - **Will of the Many** by _James Islington_
 - **Dungeon Crawler Carl** by _Matt Dinniman_
-- **The Witcher** by _Andrzej Sapkowski_
-- **Dune** by _Frank Herbert_
+- **Malazan Book of the Fallen** by _Steven Erikson_
 
 Want to hire me? [Contact me here](/contact).
