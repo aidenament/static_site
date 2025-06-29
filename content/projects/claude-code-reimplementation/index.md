@@ -67,5 +67,4 @@ The assistant implements several security measures:
 
 - **Python 3.x**
 - **Google Gemini AI**
-- **Secure file system operations**
 

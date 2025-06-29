@@ -67,7 +67,5 @@ The application will:
 ### Technologies Used
 
 - **Python 3.7+**
-- **OpenAI GPT API**
+- **OpenAI API**
 - **Weights and Biases (for tracking and debugging)**
-- **Multi-agent orchestration framework**
-
