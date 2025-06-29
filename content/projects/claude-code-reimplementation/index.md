@@ -8,7 +8,7 @@ This project is an AI-powered development assistant designed to help users with 
 
 ### GitHub Repository
 
-View the source code and contribute: [github.com/aidenament/Claude-Code-Reimplementation](https://github.com/aidenament/Claude-Code-Reimplementation)
+View the source code: [github.com/aidenament/Claude-Code-Reimplementation](https://github.com/aidenament/Claude-Code-Reimplementation)
 
 ### Overview
 
@@ -26,38 +26,34 @@ The AI Agent leverages the Gemini AI model to understand user prompts and execut
 
 ### Technical Architecture
 
-The project is organized into the following key components:
-
 #### Core Components
-- **main.py**: The main script that orchestrates the AI agent, handling conversation flow, AI model interaction, and dispatching tool calls
-- **functions/**: Contains the implementations of the tool functions available to the AI agent:
-  - `get_files_info.py`: Lists files and their metadata
-  - `get_file_content.py`: Reads the content of specified files
-  - `run_python.py`: Executes Python scripts
-  - `write_file_content.py`: Writes content to files securely
+
+**main.py**: The main script that orchestrates the AI agent, handling conversation flow, AI model interaction, and dispatching tool calls <br> <br>
+**functions/**: Contains the implementations of the tool functions available to the AI agent:
+
+ - **get_files_info.py**: Lists files and their metadata
+ - **get_file_content.py**: Reads the content of specified files
+ - **run_python.py**: Executes Python scripts
+ - **write_file_content.py**: Writes content to files securely
 
 #### Example Application
+
 The repository includes a calculator application as an example that the AI agent can interact with:
+
 - **calculator/main.py**: The main script for the calculator application
 - **calculator/tests.py**: Unit tests for the calculator
 - **calculator/pkg/**: Contains core logic for evaluating arithmetic expressions and formatting output
 
 ### Usage Examples
 
-**Interactive Mode**
-```bash
-python main.py
-```
+> **Interactive Mode** <br>
+> python main.py
 
-**Command-Line Prompt**
-```bash
-python main.py "list all python files"
-```
+> **Command-Line Prompt** <br>
+> python main.py "list all python files"
 
-**Verbose Mode**
-```bash
-python main.py --verbose
-```
+> **Verbose Mode** <br>
+> python main.py --verbose
 
 ### Security Considerations
 
@@ -67,21 +63,9 @@ The assistant implements several security measures:
 - All operations are logged and can be audited
 - Environment variables are properly isolated
 
-### Future Development
-
-This project serves as a foundation for building more sophisticated AI-powered development tools. Potential enhancements include:
-- Support for additional programming languages
-- Integration with version control systems
-- Enhanced code analysis capabilities
-- Collaborative features for team development
-
 ### Technologies Used
 
 - **Python 3.x**
 - **Google Gemini AI**
-- **Environment variable management with python-dotenv**
 - **Secure file system operations**
 
-### License
-
-This project is licensed under the MIT License. See the LICENSE file in the repository for details.

@@ -8,7 +8,7 @@ Gator is a powerful command-line RSS feed aggregator that allows users to manage
 
 ### GitHub Repository
 
-View the source code and contribute: [github.com/aidenament/Gator](https://github.com/aidenament/Gator)
+View the source code: [github.com/aidenament/Gator](https://github.com/aidenament/Gator)
 
 ### Overview
 
@@ -29,96 +29,76 @@ Gator brings RSS feed management to the command line with a focus on simplicity 
 
 The application uses a well-structured relational database design:
 
-- **users**: Stores user information (id, name, created_at, updated_at)
-- **feeds**: Stores RSS feed information (id, name, url, user_id, created_at, updated_at, last_fetched_at)
+- **users**: Stores user information (**id**, **name**, **created_at**, **updated_at**)
+- **feeds**: Stores RSS feed information (**id**, **name**, **url**, **user_id**, **created_at**, **updated_at**, **last_fetched_at**)
 - **feed_follows**: Many-to-many relationship between users and feeds
 - **posts**: Stores individual RSS posts with deduplication support
 
-#### Code Organization
-
-```
-gator/
-├── main.go              # Main application logic
-├── go.mod               # Go module definition
-├── go.sum               # Go module checksums
-├── sqlc.yaml            # sqlc configuration
-├── internal/
-│   ├── config.go        # Configuration management
-│   └── database/        # Generated database code
-├── sql/
-│   ├── schema/          # Database migrations
-│   └── queries/         # SQL queries for code generation
-└── README.md           # Documentation
-```
-
 ### Core Components
 
-1. **Command System**: Each CLI command has a dedicated handler function with clear separation of concerns
-2. **Middleware**: Authentication middleware ensures certain commands require login
-3. **RSS Parser**: Fetches and parses RSS/XML feeds with robust HTTP client
-4. **HTML Converter**: Converts HTML content to Markdown for better terminal display
-5. **Database Layer**: Uses sqlc for type-safe database operations
+- **Command System**: Each CLI command has a dedicated handler function with clear separation of concerns
+- **Middleware**: Authentication middleware ensures certain commands require login
+- **RSS Parser**: Fetches and parses RSS/XML feeds with robust HTTP client
+- **HTML Converter**: Converts HTML content to Markdown for better terminal display
+- **Database Layer**: Uses sqlc for type-safe database operations
 
 ### Usage Examples
 
 #### User Management
-```bash
-# Register a new user
-gator register alice
 
-# Login as existing user
-gator login bob
+> Register a new user <br>
+> **gator register alice**
 
-# List all users
-gator users
-```
+> Login as existing user <br>
+> **gator login bob**
+
+> List all users <br>
+> **gator users**
 
 #### Feed Management
-```bash
-# Add a new RSS feed
-gator addfeed "Tech News" https://example.com/rss
 
-# Follow an existing feed
-gator follow https://blog.example.com/feed
+> Add a new RSS feed <br>
+>**gator addfeed "Tech News" https://example.com/rss**
 
-# List feeds you're following
-gator following
+> Follow an existing feed <br>
+> **gator follow https://blog.example.com/feed**
 
-# Unfollow a feed
-gator unfollow https://example.com/rss
-```
+> List feeds you're following <br>
+> **gator following**
+
+> Unfollow a feed <br>
+> **gator unfollow https://example.com/rss**
 
 #### Content Aggregation
-```bash
-# Start aggregator with 1-minute interval
-gator agg 1m
 
-# Browse recent posts (default: 2 posts)
-gator browse
+> Start aggregator with 1-minute interval<br>
+> **gator agg 1m**
 
-# Browse more posts
-gator browse 10
-```
+> Browse recent posts (default: 2 posts) <br>
+> **gator browse**
+
+> Browse more posts <br>
+> **gator browse 10**
 
 ### Advanced Features
 
 #### Authentication Flow
 
-1. User runs `register` or `login` command
+1. User runs register or login command
 2. System validates user exists (login) or creates user (register)
 3. Configuration file is updated with current user
 4. Subsequent commands requiring authentication check current user from config
 
 #### Feed Aggregation Flow
 
-1. `agg` command starts ticker with specified duration
+1. agg command starts ticker with specified duration
 2. On each tick:
-   - Query database for feed with oldest `last_fetched_at`
+   - Query database for feed with oldest last___fetched___at
    - Fetch RSS content via HTTP
    - Parse XML and extract posts
    - Convert HTML content to Markdown
    - Store new posts (skip duplicates)
-   - Update feed's `last_fetched_at` timestamp
+   - Update feed's last___fetched___at timestamp
 
 ### Development Highlights
 
@@ -133,35 +113,12 @@ gator browse 10
 - **Go 1.24.4+**: Modern Go for performance and simplicity
 - **PostgreSQL**: Robust relational database for data persistence
 - **sqlc**: Type-safe SQL code generation
-- **Standard Library**: Minimal dependencies, leveraging Go's excellent standard library
+- **goose**: For database migrations
 
 ### Installation
 
-```bash
-# Install directly using Go
-go install github.com/aidenament/gator@latest
+> **Install directly using Go** <br>
+> go install github.com/aidenament/gator@latest
 
-# Set up configuration
-echo '{"db_url": "postgres://user:pass@localhost/gator?sslmode=disable"}' > ~/.gatorconfig.json
-```
-
-### Future Enhancements
-
-- Web UI for browser-based access
-- Feed categorization and tagging
-- Full-text search across posts
-- Export functionality (OPML, JSON)
-- Feed health monitoring and statistics
-- Mobile app companion
-
-### Why Gator?
-
-In an age of algorithmic feeds and social media, Gator brings back the simplicity and control of RSS. It's perfect for:
-- Developers who live in the terminal
-- Privacy-conscious users who want local feed storage
-- Power users who need scriptable feed management
-- Anyone looking to escape the noise of modern content platforms
-
-### License
-
-This project is provided as-is for educational purposes.
+> **Set up configuration** <br>
+> echo **'{"db_url": "postgres://user:pass@localhost/gator?sslmode=disable"}' > ~/.gatorconfig.json**

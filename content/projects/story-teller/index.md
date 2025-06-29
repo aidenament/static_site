@@ -8,7 +8,7 @@ Story Teller is an interactive AI-powered storytelling application featuring Boo
 
 ### GitHub Repository
 
-View the source code and contribute: [github.com/aidenament/Story-Teller-AI](https://github.com/aidenament/Story-Teller-AI)
+View the source code: [github.com/aidenament/Story-Teller-AI](https://github.com/aidenament/Story-Teller-AI)
 
 ### Overview
 
@@ -48,47 +48,21 @@ The project demonstrates several advanced AI concepts:
 
 ### Model Considerations
 
-The default model for this project is GPT-3.5-turbo, with specific design considerations:
+The default model for this project is GPT-3.5-turbo as the company requested. This impacted design considerations for:
 - Tool usage and handoffs are carefully managed due to model limitations
 - The system includes additional guidance and reminders to prevent errors
-- Significant improvements are observed when using more capable models like GPT-4
-
-### Project Structure
-
-```
-story_teller/
-├── main.py                 # Main application entry point
-├── config.py              # Configuration settings
-├── requirements.txt       # Python dependencies
-├── functions/            # File operation utilities
-│   ├── get_file_content.py
-│   ├── get_files_info.py
-│   └── write_file_content.py
-└── story/               # Story content directory
-    └── outline.txt      # Generated story outlines
-```
+- Significant improvements are observed when using more capable models like GPT-4.1. I highly recommend using with this model if possible
 
 ### Usage Example
 
-```bash
-python main.py
-```
+> python main.py
 
 The application will:
+
 1. Introduce Boop Boop the Storytelling Elephant
 2. Ask if you have a specific story idea or would like a suggestion
 3. Create a story outline based on your preferences
 4. Narrate the complete story with engaging details and pacing
-
-### Future Enhancements
-
-Potential improvements include:
-- Enhanced file system usage for character profiles, settings, and events
-- Multi-part story narration for longer tales
-- Specialized agents for targeted story element improvements
-- Shared memory system for complex story development
-- Voice synthesis integration for audio narration
-- Interactive elements where children can influence the story direction
 
 ### Technologies Used
 
@@ -97,14 +71,3 @@ Potential improvements include:
 - **Weights and Biases (for tracking and debugging)**
 - **Multi-agent orchestration framework**
 
-### Educational Impact
-
-This project showcases how AI can be used to create educational and entertaining content for children, demonstrating:
-- Age-appropriate content generation
-- Moral and lesson integration
-- Interactive learning experiences
-- Creative storytelling techniques
-
-### License
-
-The project is open source and available for educational and non-commercial use.
