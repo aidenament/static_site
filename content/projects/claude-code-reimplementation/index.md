@@ -4,7 +4,7 @@
 
 ## AI Agent Development Assistant
 
-This project is an AI-powered development assistant designed to help users with Python development and file system operations within a secure, sandboxed environment. It's a reimplementation of Claude Code using the Gemini AI model.
+This project is an AI-powered development assistant designed to help users with Python development and file system operations within a secure, sandboxed environment. It's a reimplementation of Claude Code using Google Gemini.
 
 ### GitHub Repository
 
@@ -66,5 +66,5 @@ The assistant implements several security measures:
 ### Technologies Used
 
 - **Python 3.x**
-- **Google Gemini AI**
+- **Google Gemini API**
 

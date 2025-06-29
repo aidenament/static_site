@@ -18,17 +18,6 @@ Story Teller is a multi-agent AI system that creates personalized, age-appropria
 
 ![Story Teller Architecture Diagram](/images/Diagram.png)
 
-### Key Features
-
-- **Interactive Story Creation**: Children can request specific story ideas or let Boop Boop suggest one
-- **Multi-Agent System**: 
-  - **Story Selection Agent**: Warmly interacts with children to understand their story preferences
-  - **Secret Story Judge**: Works behind the scenes to enhance story outlines with rich details
-  - **Story Telling Agent**: Brings stories to life with vivid narration and engaging language
-- **Age-Appropriate Content**: Stories are carefully crafted for 5-10 year olds with simple yet rich language
-- **Engaging Narration**: Uses sound effects, vivid descriptions, and pacing to keep children engaged
-- **Educational Value**: Each story includes a moral or lesson naturally woven into the narrative
-
 ### How It Works
 
 1. **Story Selection**: Boop Boop interacts with the child to understand their story preferences
@@ -53,7 +42,7 @@ The default model for this project is GPT-3.5-turbo as the company requested. Th
 - The system includes additional guidance and reminders to prevent errors
 - Significant improvements are observed when using more capable models like GPT-4.1. I highly recommend using with this model if possible
 
-### Usage Example
+### Usage
 
 > python main.py
 

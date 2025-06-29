@@ -91,14 +91,15 @@ The application uses a well-structured relational database design:
 
 #### Feed Aggregation Flow
 
-1. agg command starts ticker with specified duration
-2. On each tick:
-   - Query database for feed with oldest last___fetched___at
-   - Fetch RSS content via HTTP
-   - Parse XML and extract posts
-   - Convert HTML content to Markdown
-   - Store new posts (skip duplicates)
-   - Update feed's last___fetched___at timestamp
+agg command starts ticker with specified duration <br>
+On each tick:
+
+- Query database for feed with oldest **last_fetched_at**
+- Fetch RSS content via HTTP
+- Parse XML and extract posts
+- Convert HTML content to Markdown
+- Store new posts (skip duplicates)
+- Update feed's **last_fetched_at** timestamp
 
 ### Development Highlights
 

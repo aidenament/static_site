@@ -13,7 +13,3 @@ You can view the full paper below or [download it directly](/projects/hartogs/Ha
 ```pdf
 /projects/hartogs/Hartogs__theorem.pdf
 ```
-
-### Abstract
-
-This paper examines Hartogs' Extension Theorem, which states that holomorphic functions defined on a domain with a hole can be analytically continued to the entire domain when dealing with functions of two or more complex variables. This contrasts with single-variable complex analysis, where holomorphic functions can have isolated singularities. We explore the proof of this theorem and its implications for complex analysis.
