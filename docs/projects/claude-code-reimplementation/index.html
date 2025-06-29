@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Claude Code Reimplementation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/index.css" rel="stylesheet" />
+    <style>
+      @font-face {
+        font-family: 'Norwester';
+        src: url('/fonts/norwester.woff2') format('woff2'),
+             url('/fonts/norwester.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+  </head>
+
+  <body>
+    <article><div><h1>Claude Code Reimplementation</h1><p><a href="/projects">< Back to Projects</a></p><h2>AI Agent Development Assistant</h2><p>This project is an AI-powered development assistant designed to help users with Python development and file system operations within a secure, sandboxed environment. It's a reimplementation of Claude Code using the Gemini AI model.</p><h3>GitHub Repository</h3><p>View the source code and contribute: <a href="https://github.com/aidenament/Claude-Code-Reimplementation">github.com/aidenament/Claude-Code-Reimplementation</a></p><h3>Overview</h3><p>The AI Agent leverages the Gemini AI model to understand user prompts and execute various coding and file management tasks. It's equipped with specific tool functions that allow it to interact with the file system, read/write files, and run Python scripts, all while maintaining strict security boundaries to prevent unauthorized access.</p><h3>Key Features</h3><ul><li><b>Intelligent AI Interaction</b>: Utilizes the Gemini AI model to interpret natural language requests and determine appropriate actions</li><li><b>File System Exploration</b>: Capability to list files and directories to understand project structure</li><li><b>File Content Management</b>: Read and write content to files, facilitating code modification and documentation</li><li><b>Python Code Execution</b>: Run Python scripts within the sandboxed environment to test and verify code</li><li><b>Secure Operations</b>: All file system operations are constrained to the working directory, ensuring a secure and controlled environment</li><li><b>Interactive Mode</b>: Engage with the AI agent in a conversational manner for continuous development tasks</li><li><b>Command-Line Prompting</b>: Provide initial prompts directly via command-line arguments for specific tasks</li></ul><h3>Technical Architecture</h3><p>The project is organized into the following key components:</p><h4>Core Components
+- <b>main.py</b>: The main script that orchestrates the AI agent, handling conversation flow, AI model interaction, and dispatching tool calls
+- <b>functions/</b>: Contains the implementations of the tool functions available to the AI agent:
+- <code>get</code><i>files</i>info.py<code>: Lists files and their metadata
+- </code>get<i>file</i>content.py<code>: Reads the content of specified files
+- </code>run<i>python.py`: Executes Python scripts
+- `write</i>file<i>content.py`: Writes content to files securely</i></h4><h4>Example Application
+The repository includes a calculator application as an example that the AI agent can interact with:
+- <b>calculator/main.py</b>: The main script for the calculator application
+- <b>calculator/tests.py</b>: Unit tests for the calculator
+- <b>calculator/pkg/</b>: Contains core logic for evaluating arithmetic expressions and formatting output</h4><h3>Usage Examples</h3><p><b>Interactive Mode</b>
+<code></code><code>bash
+python main.py
+</code><code></code></p><p><b>Command-Line Prompt</b>
+<code></code><code>bash
+python main.py "list all python files"
+</code><code></code></p><p><b>Verbose Mode</b>
+<code></code><code>bash
+python main.py --verbose
+</code><code></code></p><h3>Security Considerations</h3><p>The assistant implements several security measures:
+- File system operations are restricted to the working directory
+- Python script execution is sandboxed
+- All operations are logged and can be audited
+- Environment variables are properly isolated</p><h3>Future Development</h3><p>This project serves as a foundation for building more sophisticated AI-powered development tools. Potential enhancements include:
+- Support for additional programming languages
+- Integration with version control systems
+- Enhanced code analysis capabilities
+- Collaborative features for team development</p><h3>Technologies Used</h3><ul><li><b>Python 3.x</b></li><li><b>Google Gemini AI</b></li><li><b>Environment variable management with python-dotenv</b></li><li><b>Secure file system operations</b></li></ul><h3>License</h3><p>This project is licensed under the MIT License. See the LICENSE file in the repository for details.</p></div></article>
+  </body>
+</html>
