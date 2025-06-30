@@ -58,6 +58,7 @@ The repository includes a calculator application as an example that the AI agent
 ### Security Considerations
 
 The assistant implements several security measures:
+
 - File system operations are restricted to the working directory
 - Python script execution is sandboxed
 - All operations are logged and can be audited

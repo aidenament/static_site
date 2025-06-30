@@ -24,10 +24,6 @@
 <b>functions/</b>: Contains the implementations of the tool functions available to the AI agent:</p><ul><li><b>get_files_info.py</b>: Lists files and their metadata</li><li><b>get_file_content.py</b>: Reads the content of specified files</li><li><b>run_python.py</b>: Executes Python scripts</li><li><b>write_file_content.py</b>: Writes content to files securely</li></ul><h4>Example Application</h4><p>The repository includes a calculator application as an example that the AI agent can interact with:</p><ul><li><b>calculator/main.py</b>: The main script for the calculator application</li><li><b>calculator/tests.py</b>: Unit tests for the calculator</li><li><b>calculator/pkg/</b>: Contains core logic for evaluating arithmetic expressions and formatting output</li></ul><h3>Usage Examples</h3><blockquote><b>Interactive Mode</b> <br>
 python main.py</blockquote><blockquote><b>Command-Line Prompt</b> <br>
 python main.py "list all python files"</blockquote><blockquote><b>Verbose Mode</b> <br>
-python main.py --verbose</blockquote><h3>Security Considerations</h3><p>The assistant implements several security measures:
-- File system operations are restricted to the working directory
-- Python script execution is sandboxed
-- All operations are logged and can be audited
-- Environment variables are properly isolated</p><h3>Technologies Used</h3><ul><li><b>Python 3.x</b></li><li><b>Google Gemini API</b></li></ul></div></article>
+python main.py --verbose</blockquote><h3>Security Considerations</h3><p>The assistant implements several security measures:</p><ul><li>File system operations are restricted to the working directory</li><li>Python script execution is sandboxed</li><li>All operations are logged and can be audited</li><li>Environment variables are properly isolated</li></ul><h3>Technologies Used</h3><ul><li><b>Python 3.x</b></li><li><b>Google Gemini API</b></li></ul></div></article>
   </body>
 </html>
