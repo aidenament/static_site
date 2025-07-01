@@ -3,7 +3,7 @@
 Former<br>
 **Scholar Athlete**
 
-![Aiden Smile](/images/rowing_smile.png)
+![Aiden Smile](/images/headshot.jpg)
 
 Here's the deal, **I made a website**. 
 Well I made a markdown to html parser, then made a website. Why? Because I could.
