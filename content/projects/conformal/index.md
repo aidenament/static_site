@@ -2,7 +2,7 @@
 
 [< Back to Projects](/projects)
 
-## Applications of Conformal Mappings in Solving Boundary Value Problems
+## Proof and Applications of Conformal Invariance of Complex Brownian Motion
 
 This research explores how conformal mappings perserve Brownian motion. Conformal mappings preserve angles and are essential tools in complex analysis with surprising overlap in the field of stochastic processes.
 
