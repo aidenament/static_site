@@ -15,7 +15,13 @@
 
 ## Current Position
 
-### Machine Learning Engineer at Nano-IC | Jun 2024 - Present
+### Machine Learning Engineer at Pallas Security | Sep 2025 - Present
+
+- I work on building fancy security features for enterprise AI tools
+
+## Previous Position
+
+### Machine Learning Engineer at Nano-IC | Jun 2024 - Sep 2025
 
 - Use PyTorch to develop novel neural network architectures for computer vision applications
 - Use compile optimizations and Nvidia Nsight to optimize performance on hardware
