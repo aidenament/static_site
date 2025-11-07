@@ -32,6 +32,6 @@ It is incredibly rewarding to work with athletes and see them engage with the sp
 
 ![stormblessed](/images/kaladin.jpg)
 
-In my free time I like to read fantasy novels. While I fell out of the habit of reading for fun in high school and college, reading **The Wheel of Time** by Robert Jordan reignited my passion. Since then, I've been reading through the genre and writing [reviews and thoughts here](/reading).
+In my free time I like to read fantasy novels. While I fell out of the habit of reading for fun in high school and college, reading **The Wheel of Time** by Robert Jordan reignited my passion. Since then, I've been reading through the genre and made a [goodreads knockoff](https://shutthehellupdaryan.com/) to review books with my friends.
 
 Want to hire me? [Contact me here](/contact).
