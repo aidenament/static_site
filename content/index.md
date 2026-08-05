@@ -27,7 +27,7 @@ After graduation, I joined a small startup as a **machine learning engineer** fo
 - [Projects](/projects)
 - [Resume](/resume)
 
-### Fantasy and Science Fiction Reviews
+### Book Reviews
 
 ![Kingdoms of Death](/images/kingdoms-of-death.png)
 
