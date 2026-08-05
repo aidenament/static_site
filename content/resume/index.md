@@ -23,8 +23,8 @@
 
 ### Machine Learning Engineer at Nano-IC | Jun 2024 - Sep 2025
 
-- Use PyTorch to develop novel neural network architectures for computer vision applications
-- Use compile optimizations and Nvidia Nsight to optimize performance on hardware
+- Used PyTorch to develop novel neural network architectures for computer vision applications
+- Used compile optimizations and Nvidia Nsight to optimize performance on hardware
 - Developed model with superior accuracy on imagenet1k (80%) compared to ResNet152 with 20% of the parameters and half the training time
 
 ## Research Experience
@@ -51,10 +51,10 @@
 
 ## Leadership
 
-### Co-Founder, AI Safety Club at UCLA | Aug 2022 - Present
+### Co-Founder, AI Safety Club at UCLA | Aug 2022 - Jun 2024
 
 - Spearheaded the establishment of UCLA's first student-led organization dedicated to the responsible development of AI and the mitigation of potential risks from advanced AI systems
-- Registered the club as a 501(c)(3) nonprofit corporation and raised over $15,000 in funding from Open Philanthropy to support the clubs educational and research initiatives
+- Registered the club as a 501(c)(3) nonprofit corporation and raised over $15,000 in funding from Open Philanthropy to support the club's educational and research initiatives
 - Organized and led introductory fellowships to teach students the basics of deep learning for computer vision using hands on coding exercises
 - Directed a research group in mechanistic anomaly detection to improve our understanding of how models come to their conclusions
 

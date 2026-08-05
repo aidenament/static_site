@@ -2,16 +2,16 @@
 
 [< Back Home](/)
 
-![Tom Bombadil image](/images/monkey.gif)
+![Dancing monkey](/images/monkey.gif)
 
-Welcome to my projects page! Here you'll find a collection of my work in mathematics, computer science, and machine learning. Each project represents a unique challenge I've tackled or random problem I decided to persue.
+Welcome to my projects page! Here you'll find a collection of my work in mathematics, computer science, and machine learning. Each project represents a unique challenge I've tackled or random problem I decided to pursue.
 
 ### Mathematics & Theory
 
-- [Sum of Uniform Random Variables](/projects/uniform_sum) - Finds the expected number of i.i.d variables uniformly distributed betweeen 0 and 1 needed to be sumed in order to exceed one. Very satisfying answer.
+- [Sum of Uniform Random Variables](/projects/uniform_sum) - Finds the expected number of i.i.d variables uniformly distributed between 0 and 1 needed to be summed in order to exceed one. Very satisfying answer.
 - [Hartogs' Extension Theorem](/projects/hartogs) - A study of extending holomorphic functions in several complex variables.
-- [Conformal Mapping Techniques](/projects/conformal) - Comformal invarience proof and applications of conformal mappings of Complex Brownian motion.
-- [Expected Value of A Random Point in Square to it's Nearest Edge](/projects/expected_val) - Finds the expected distance between a point chosen at random in a unit square to the nearest edge.
+- [Conformal Mapping Techniques](/projects/conformal) - Conformal invariance proof and applications of conformal mappings of Complex Brownian motion.
+- [Expected Value of A Random Point in a Square to its Nearest Edge](/projects/expected_val) - Finds the expected distance between a point chosen at random in a unit square to the nearest edge.
 
 ### Software Development
 
