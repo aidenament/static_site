@@ -207,6 +207,22 @@ img:hover {
   border: none;
 }
 
+/* Pages drawn by pdf-embed.js on viewports too narrow for the native viewer */
+.pdf-pages {
+  display: none;
+}
+
+.pdf-pages canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #ffffff;
+}
+
+.pdf-pages canvas + canvas {
+  margin-top: 8px;
+}
+
 /* Shown only where the embedded viewer cannot render (see media query below) */
 .pdf-fallback {
   display: none;
@@ -231,6 +247,16 @@ img:hover {
     padding: 20px 24px;
     text-align: center;
     font-weight: 500;
+  }
+
+  /* pdf.js finished drawing the pages, so the link is no longer the only way
+     to read the paper and would just be noise under the document. */
+  .pdf-container.pdf-inline .pdf-pages {
+    display: block;
+  }
+
+  .pdf-container.pdf-inline .pdf-fallback {
+    display: none !important;
   }
 }
 

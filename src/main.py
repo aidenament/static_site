@@ -6,13 +6,13 @@ import shutil
 import sys
 import re
 
-def asset_version(path="static/index.css"):
-    """Short content hash used to cache-bust the stylesheet.
+def asset_version(path):
+    """Short content hash used to cache-bust a static asset.
 
-    GitHub Pages serves index.css with a 4 hour max-age, so a deploy that
-    changes both HTML and CSS leaves returning visitors running new markup
-    against a stale stylesheet. Versioning the URL forces a refetch whenever
-    the file actually changes.
+    GitHub Pages serves index.css with a 4 hour max-age but the HTML with only
+    10 minutes, so a deploy that changes both leaves returning visitors running
+    new markup against a stale stylesheet. Versioning the URL forces a refetch
+    whenever the file actually changes.
     """
     try:
         with open(path, 'rb') as f:
@@ -70,7 +70,8 @@ def generate_page(from_path, template_path, dest_path, basepath="/"):
     filled_template = template_content.replace("{{ Title }}", title)
     filled_template = filled_template.replace("{{ Content }}", html_content)
     filled_template = filled_template.replace("{{basepath}}", basepath)
-    filled_template = filled_template.replace("{{cssversion}}", asset_version())
+    filled_template = filled_template.replace("{{cssversion}}", asset_version("static/index.css"))
+    filled_template = filled_template.replace("{{jsversion}}", asset_version("static/pdf-embed.js"))
 
     # Replace absolute URLs with basepath-prefixed URLs
     filled_template = filled_template.replace('href="/', f'href="{basepath}')
