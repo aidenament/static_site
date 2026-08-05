@@ -8,8 +8,9 @@ Former<br>
 Here's the deal, **I made a website**. 
 Well I made a markdown to html parser, then made a website. Why? Because I could.
 
-> “All we have to decide is what to do with the time that is given to us.” <br>
-> -- The Lord of the Rings
+> “I wish it need not have happened in my time," said Frodo. <br>
+> "So do I," said Gandalf, "and so do all who live to see such times. But that is not for them to decide. All we have to decide is what to do with the time that is given us.” <br>
+> ― J.R.R. Tolkien, The Fellowship of the Ring
 
 ## About Me
 
@@ -21,8 +22,6 @@ My time at UCLA was split between academics and athletics - I rowed for four yea
 
 After graduation, I joined a small startup as a **machine learning engineer** focusing on AI security. I still am involved in rowing: I have transitioned from being an athlete to an assistant coach at Marin Rowing Association. 
 
-It is incredibly rewarding to work with athletes and see them engage with the sport that taught me so much about discipline and teamwork. The balance between technical work during the week and coaching on the water provides a fulfilling rhythm to my post-college life.
-
 ## Links
 
 - [Projects](/projects)
@@ -30,7 +29,7 @@ It is incredibly rewarding to work with athletes and see them engage with the sp
 
 ### Fantasy Reviews
 
-![stormblessed](/images/kaladin.jpg)
+![Kingdoms of Death](/images/kingdoms-of-death.png)
 
 In my free time I like to read fantasy novels. While I fell out of the habit of reading for fun in high school and college, reading **The Wheel of Time** by Robert Jordan reignited my passion. Since then, I've been reading through the genre and made a [goodreads knockoff](https://shutthehellupdaryan.com/) to review books with my friends.
 
