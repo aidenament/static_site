@@ -192,12 +192,44 @@ img:hover {
   height: 80vh;
   min-height: 600px;
   margin: 30px 0;
-  border: 1px solid rgba(44, 62, 80, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+}
+
+.pdf-container iframe {
+  display: block;
+  flex: 1;
+  width: 100%;
+  border: none;
+}
+
+/* Shown only where the embedded viewer cannot render (see media query below) */
+.pdf-fallback {
+  display: none;
+}
+
+/* Mobile browsers do not render PDFs inside an iframe — they leave a blank box.
+   Swap the embed for a link that opens the file in the native viewer. */
+@media (max-width: 700px) {
+  .pdf-container {
+    height: auto;
+    min-height: 0;
+  }
+
+  .pdf-container iframe {
+    display: none;
+  }
+
+  .pdf-fallback {
+    display: block;
+    padding: 20px 24px;
+    text-align: center;
+    font-weight: 500;
+  }
 }
 
 article {

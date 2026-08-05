@@ -129,7 +129,7 @@ class TestParentNode(unittest.TestCase):
         inner_parent = ParentNode("div", [inner_child], {"class": "inner"})
         outer_parent = ParentNode("section", [inner_parent], {"class": "outer"})
         html = outer_parent.to_html()
-        self.assertEqual(html, "<section><div><span>Inner content</span></div></section>")
+        self.assertEqual(html, '<section class="outer"><div class="inner"><span>Inner content</span></div></section>')
     
     def test_deep_nesting(self):
         # Test deep nesting of ParentNodes
@@ -138,7 +138,7 @@ class TestParentNode(unittest.TestCase):
         level2 = ParentNode("div", [level3], {"class": "level2"})
         level1 = ParentNode("div", [level2], {"class": "level1"})
         html = level1.to_html()
-        self.assertEqual(html, "<div><div><div><span>Deep content</span></div></div></div>")
+        self.assertEqual(html, '<div class="level1"><div class="level2"><div class="level3"><span>Deep content</span></div></div></div>')
     
     def test_mixed_leaf_and_parent_children(self):
         # Test a mix of LeafNodes and ParentNodes as children

@@ -316,21 +316,28 @@ def markdown_to_html_node(markdown):
             case block_type.PDF:
                 # Strip the leading ```pdf and trailing ```
                 pdf_path = block.split("\n")[1].strip()
-                # Create a div to contain the iframe with explicit styling
+                # view=FitH fits the page to the frame width and navpanes=0 hides the
+                # thumbnail sidebar; without them Chrome opens at 100% with the sidebar
+                # showing, which clips the page horizontally.
                 iframe = LeafNode(
-                    "iframe", 
-                    "", 
+                    "iframe",
+                    "",
                     {
-                        "src": pdf_path, 
-                        "width": "100%", 
-                        "height": "100%", 
-                        "style": "border: none; display: block; flex: 1;"
+                        "src": f"{pdf_path}#view=FitH&amp;navpanes=0",
+                        "title": "PDF preview"
                     }
+                )
+                # Mobile browsers refuse to render PDFs in an iframe and leave an empty
+                # box, so ship a link the stylesheet swaps in on narrow viewports.
+                fallback = LeafNode(
+                    "a",
+                    "Open the PDF",
+                    {"class": "pdf-fallback", "href": pdf_path}
                 )
                 # Create a parent container with proper class for styling
                 container = ParentNode(
-                    "div", 
-                    [iframe], 
+                    "div",
+                    [iframe, fallback],
                     {"class": "pdf-container"}
                 )
                 nodes.append(container)

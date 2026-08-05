@@ -42,13 +42,6 @@ def generate_page(from_path, template_path, dest_path, basepath="/"):
     html_node = markdown_to_html_node(markdown_content)
     html_content = html_node.to_html()
     
-    # Post-process HTML to fix PDF container divs
-    # This more specific regex looks for div elements containing iframe elements with PDF src
-    html_content = html_content.replace(
-        '<div><iframe src="', 
-        '<div class="pdf-container"><iframe src="'
-    )
-    
     # Extract title from markdown, use filename as fallback
     try:
         title = extract_title(markdown_content)

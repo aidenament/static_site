@@ -50,4 +50,4 @@ class ParentNode(HTMLNode):
             raise ValueError("children cannot be None")
         html = [child.to_html() for child in self.children]
         html = "".join(html)
-        return f"<{self.tag}>{html}</{self.tag}>"
+        return f"<{self.tag}{self.props_to_html()}>{html}</{self.tag}>"
