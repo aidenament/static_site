@@ -1,9 +1,24 @@
 from textnode import TextNode, TextType
 from funcs import markdown_to_html_node, extract_title
+import hashlib
 import os
 import shutil
 import sys
 import re
+
+def asset_version(path="static/index.css"):
+    """Short content hash used to cache-bust the stylesheet.
+
+    GitHub Pages serves index.css with a 4 hour max-age, so a deploy that
+    changes both HTML and CSS leaves returning visitors running new markup
+    against a stale stylesheet. Versioning the URL forces a refetch whenever
+    the file actually changes.
+    """
+    try:
+        with open(path, 'rb') as f:
+            return hashlib.sha256(f.read()).hexdigest()[:8]
+    except OSError:
+        return "0"
 
 def recursive_copy(source_path, destination_path):
     if os.path.exists(destination_path):
@@ -55,7 +70,8 @@ def generate_page(from_path, template_path, dest_path, basepath="/"):
     filled_template = template_content.replace("{{ Title }}", title)
     filled_template = filled_template.replace("{{ Content }}", html_content)
     filled_template = filled_template.replace("{{basepath}}", basepath)
-    
+    filled_template = filled_template.replace("{{cssversion}}", asset_version())
+
     # Replace absolute URLs with basepath-prefixed URLs
     filled_template = filled_template.replace('href="/', f'href="{basepath}')
     filled_template = filled_template.replace('src="/', f'src="{basepath}')

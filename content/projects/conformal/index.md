@@ -4,7 +4,7 @@
 
 ## Proof and Applications of Conformal Invariance of Complex Brownian Motion
 
-This research explores how conformal mappings perserve Brownian motion. Conformal mappings preserve angles and are essential tools in complex analysis with surprising overlap in the field of stochastic processes.
+This research explores how conformal mappings preserve Brownian motion. Conformal mappings preserve angles and are essential tools in complex analysis with surprising overlap in the field of stochastic processes.
 
 ### View the Full Paper
 

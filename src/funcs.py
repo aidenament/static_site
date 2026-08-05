@@ -316,23 +316,32 @@ def markdown_to_html_node(markdown):
             case block_type.PDF:
                 # Strip the leading ```pdf and trailing ```
                 pdf_path = block.split("\n")[1].strip()
-                # view=FitH fits the page to the frame width and navpanes=0 hides the
-                # thumbnail sidebar; without them Chrome opens at 100% with the sidebar
-                # showing, which clips the page horizontally.
+                # Chrome reads view=FitH and navpanes=0; without them it opens at 100%
+                # with the thumbnail sidebar showing, which clips the page horizontally.
+                # Firefox's pdf.js ignores both and needs zoom=page-width instead.
+                # width/height stay as attributes rather than inline styles: they size
+                # the frame if the stylesheet is missing, but lose to the media query
+                # below that hides it (presentational hints rank under author CSS).
                 iframe = LeafNode(
                     "iframe",
                     "",
                     {
-                        "src": f"{pdf_path}#view=FitH&amp;navpanes=0",
-                        "title": "PDF preview"
+                        "src": f"{pdf_path}#view=FitH&amp;navpanes=0&amp;zoom=page-width",
+                        "title": "PDF preview",
+                        "width": "100%",
+                        "height": "100%"
                     }
                 )
                 # Mobile browsers refuse to render PDFs in an iframe and leave an empty
                 # box, so ship a link the stylesheet swaps in on narrow viewports.
+                # The inline display:none keeps it out of the way when the stylesheet
+                # is missing or stale; the media query re-shows it with !important,
+                # which outranks an inline declaration. The hidden attribute cannot do
+                # this job here because `a { display: inline-block }` beats it.
                 fallback = LeafNode(
                     "a",
                     "Open the PDF",
-                    {"class": "pdf-fallback", "href": pdf_path}
+                    {"class": "pdf-fallback", "href": pdf_path, "style": "display: none;"}
                 )
                 # Create a parent container with proper class for styling
                 container = ParentNode(
