@@ -1,16 +1,20 @@
-// Mobile browsers will not render a PDF inside an iframe -- they show a blank
-// box or hand the file off to a download prompt -- so on narrow viewports we
-// build a viewer instead, using pdf.js's viewer components. That gives the
-// same scrollable, selectable document the desktop viewer does, in a box
-// sized for a phone, with a small toolbar for page count and zoom.
+// One PDF viewer, every viewport.
 //
-// If anything here fails (CDN blocked, parse error, no module support) the
-// markup is left exactly as it shipped, so the "Open the PDF" link stays
-// visible and the page is still usable.
+// There is no native way to embed a PDF that looks the same twice. <iframe>,
+// <embed> and <object> all hand the file to whatever viewer the browser ships,
+// and those are three different programs: PDFium in Chrome and Edge, a separate
+// pdf.js build in Firefox, PDFKit in Safari. They implement different subsets
+// of Adobe's #view= open parameters, none of them can be styled to match a
+// page, and mobile browsers decline to render an embedded PDF at all. So the
+// document is rendered here instead, which is the only way to get one
+// appearance on every device.
+//
+// If anything fails (CDN blocked, no module support, a parse error) the markup
+// is left exactly as it shipped and the "Open the PDF" link stays visible, so
+// the paper is always reachable.
 
 const PDFJS_VERSION = "5.7.284";
 const PDFJS_BASE = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}`;
-const NARROW = window.matchMedia("(max-width: 700px)");
 
 const ZOOM_STEP = 0.25;
 const MIN_SCALE = 0.25;
@@ -42,38 +46,45 @@ async function loadPdfjs() {
 
 function buildShell(container, href) {
   const shell = document.createElement("div");
-  shell.className = "pdf-viewer-shell";
+  shell.className = "pdf-shell";
   shell.innerHTML = `
     <div class="pdf-toolbar">
-      <span class="pdf-pages-label" aria-live="polite">&nbsp;</span>
-      <span class="pdf-toolbar-actions">
+      <span class="pdf-group pdf-group-pages">
+        <button type="button" class="pdf-btn" data-page="prev" aria-label="Previous page">&lsaquo;</button>
+        <span class="pdf-pages" aria-live="polite">&nbsp;</span>
+        <button type="button" class="pdf-btn" data-page="next" aria-label="Next page">&rsaquo;</button>
+      </span>
+      <span class="pdf-group">
         <button type="button" class="pdf-btn" data-zoom="out" aria-label="Zoom out">&minus;</button>
         <button type="button" class="pdf-btn" data-zoom="in" aria-label="Zoom in">+</button>
-        <a class="pdf-btn pdf-open" href="${href}" target="_blank" rel="noopener">Open</a>
+        <a class="pdf-btn" href="${href}" target="_blank" rel="noopener">Open</a>
       </span>
     </div>
-    <div class="pdf-viewer-frame">
-      <div class="pdf-viewer-scroll"><div class="pdfViewer"></div></div>
+    <div class="pdf-frame">
+      <div class="pdf-scroll"><div class="pdfViewer"></div></div>
     </div>`;
   container.insertBefore(shell, container.firstChild);
   return shell;
 }
 
-async function renderInline(container) {
-  if (container.dataset.pdfInlineState) return;
-  container.dataset.pdfInlineState = "rendering";
+async function mount(container) {
+  if (container.dataset.pdfState) return;
+  container.dataset.pdfState = "loading";
 
-  const iframe = container.querySelector("iframe");
-  const src = iframe && iframe.getAttribute("src");
-  if (!src) return;
-  // Drop the #view=... fragment; those are directives for the native viewer.
-  const url = src.split("#")[0];
+  // Read the path off the link rather than a data attribute, so the basepath
+  // rewrite that runs over href="/..." at build time applies to it as well.
+  const link = container.querySelector(".pdf-embed-link");
+  const url = link && link.getAttribute("href");
+  if (!url) {
+    container.dataset.pdfState = "failed";
+    return;
+  }
 
   try {
     const { core, viewer: v } = await loadPdfjs();
     const shell = buildShell(container, url);
-    const scroll = shell.querySelector(".pdf-viewer-scroll");
-    const label = shell.querySelector(".pdf-pages-label");
+    const scroll = shell.querySelector(".pdf-scroll");
+    const label = shell.querySelector(".pdf-pages");
 
     const eventBus = new v.EventBus();
     const linkService = new v.PDFLinkService({ eventBus });
@@ -86,11 +97,17 @@ async function renderInline(container) {
     });
     linkService.setViewer(pdfViewer);
 
+    // Fit the page to the box rather than opening at 100%. Tracked so that a
+    // resize can re-fit, but only while the reader has not chosen a zoom of
+    // their own; re-fitting over a deliberate zoom would be obnoxious.
+    let autoFit = true;
     eventBus.on("pagesinit", () => {
-      // Fit the page to the phone's width rather than opening at 100%.
       pdfViewer.currentScaleValue = "page-width";
     });
-    const setLabel = (page, total) => { label.textContent = `${page} / ${total}`; };
+
+    const setLabel = (page, total) => {
+      label.textContent = `${page} / ${total}`;
+    };
     eventBus.on("pagechanging", (e) => setLabel(e.pageNumber, pdfViewer.pagesCount));
 
     const doc = await core.getDocument(url).promise;
@@ -100,27 +117,40 @@ async function renderInline(container) {
 
     shell.querySelectorAll("[data-zoom]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const next = pdfViewer.currentScale + (btn.dataset.zoom === "in" ? ZOOM_STEP : -ZOOM_STEP);
+        autoFit = false;
+        const step = btn.dataset.zoom === "in" ? ZOOM_STEP : -ZOOM_STEP;
+        const next = pdfViewer.currentScale + step;
         pdfViewer.currentScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, next));
       });
     });
 
-    // Only now swap out the link -- until the viewer is on screen it is the
-    // only way to read the paper.
-    container.classList.add("pdf-inline");
-    container.dataset.pdfInlineState = "done";
+    shell.querySelectorAll("[data-page]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const delta = btn.dataset.page === "next" ? 1 : -1;
+        const target = pdfViewer.currentPageNumber + delta;
+        if (target >= 1 && target <= pdfViewer.pagesCount) {
+          pdfViewer.currentPageNumber = target;
+        }
+      });
+    });
+
+    // Covers a window dragged to a new width and a phone turned on its side.
+    // Guarded on pagesCount because ResizeObserver fires once on observe,
+    // which happens before the document has finished loading.
+    new ResizeObserver(() => {
+      if (autoFit && pdfViewer.pagesCount) {
+        pdfViewer.currentScaleValue = "page-width";
+      }
+    }).observe(scroll);
+
+    // Only now retire the link: until the viewer is on screen it is the only
+    // way to read the paper.
+    container.classList.add("is-ready");
+    container.dataset.pdfState = "ready";
   } catch (err) {
-    container.dataset.pdfInlineState = "failed";
-    console.error("Inline PDF viewer failed, leaving the download link:", err);
+    container.dataset.pdfState = "failed";
+    console.error("PDF viewer failed to mount, leaving the download link:", err);
   }
 }
 
-function sync() {
-  if (!NARROW.matches) return;
-  document.querySelectorAll(".pdf-container").forEach(renderInline);
-}
-
-sync();
-// Covers a desktop window dragged narrow, and orientation changes that cross
-// the breakpoint after load.
-NARROW.addEventListener("change", sync);
+document.querySelectorAll(".pdf-embed").forEach(mount);

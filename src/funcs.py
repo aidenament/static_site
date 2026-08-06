@@ -376,39 +376,23 @@ def markdown_to_html_node(markdown):
             case block_type.PDF:
                 # Strip the leading ```pdf and trailing ```
                 pdf_path = block.split("\n")[1].strip()
-                # Chrome reads view=FitH and navpanes=0; without them it opens at 100%
-                # with the thumbnail sidebar showing, which clips the page horizontally.
-                # Firefox's pdf.js ignores both and needs zoom=page-width instead.
-                # width/height stay as attributes rather than inline styles: they size
-                # the frame if the stylesheet is missing, but lose to the media query
-                # below that hides it (presentational hints rank under author CSS).
-                iframe = LeafNode(
-                    "iframe",
-                    "",
-                    {
-                        "src": f"{pdf_path}#view=FitH&amp;navpanes=0&amp;zoom=page-width",
-                        "title": "PDF preview",
-                        "width": "100%",
-                        "height": "100%"
-                    }
-                )
-                # Mobile browsers refuse to render PDFs in an iframe and leave an empty
-                # box, so ship a link the stylesheet swaps in on narrow viewports.
-                # The inline display:none keeps it out of the way when the stylesheet
-                # is missing or stale; the media query re-shows it with !important,
-                # which outranks an inline declaration. The hidden attribute cannot do
-                # this job here because `a { display: inline-block }` beats it.
-                fallback = LeafNode(
+                # No iframe here on purpose. Handing the file to the browser's
+                # own viewer means three different programs (PDFium in Chrome,
+                # pdf.js in Firefox, PDFKit in Safari) that disagree on the
+                # #view= parameters and cannot be styled, and mobile browsers
+                # decline to render an embedded PDF at all. pdf-embed.js builds
+                # one viewer for every viewport instead.
+                #
+                # What ships is just the link, so the paper is reachable with no
+                # JavaScript, no CDN, or a stale stylesheet. The viewer reads the
+                # path back off this href rather than a data attribute so that
+                # the basepath rewrite in main.py applies to it too.
+                link = LeafNode(
                     "a",
                     "Open the PDF",
-                    {"class": "pdf-fallback", "href": pdf_path, "style": "display: none;"}
+                    {"class": "pdf-embed-link", "href": pdf_path}
                 )
-                # Create a parent container with proper class for styling
-                container = ParentNode(
-                    "div",
-                    [iframe, fallback],
-                    {"class": "pdf-container"}
-                )
+                container = ParentNode("div", [link], {"class": "pdf-embed"})
                 nodes.append(container)
             case block_type.MATH:
                 # Strip the delimiters and hand MathJax its display form. The

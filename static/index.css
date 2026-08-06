@@ -201,10 +201,10 @@ img:hover {
   overflow-wrap: break-word;
 }
 
-.pdf-container {
-  width: 100%;
-  height: 80vh;
-  min-height: 600px;
+/* Until the viewer mounts, and if it never does, this stays a compact panel
+   holding the link. Only a working viewer earns the full height, so a CDN
+   failure is a small box rather than a tall empty one. */
+.pdf-embed {
   margin: 30px 0;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
@@ -212,18 +212,26 @@ img:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  background: #22262f;
 }
 
-.pdf-container iframe {
+.pdf-embed.is-ready {
+  height: clamp(420px, 80vh, 900px);
+}
+
+.pdf-embed-link {
   display: block;
-  flex: 1;
-  width: 100%;
-  border: none;
+  padding: 20px 24px;
+  text-align: center;
+  font-weight: 500;
 }
 
-/* Viewer built by pdf-embed.js on viewports too narrow for the native one */
-.pdf-viewer-shell {
+.pdf-embed.is-ready .pdf-embed-link {
   display: none;
+}
+
+.pdf-shell {
+  display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
@@ -242,10 +250,18 @@ img:hover {
   flex: none;
 }
 
-.pdf-toolbar-actions {
+.pdf-group {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+/* Tabular figures stop the toolbar twitching as the page number changes */
+.pdf-pages {
+  min-width: 52px;
+  text-align: center;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
 }
 
 .pdf-btn {
@@ -262,12 +278,16 @@ img:hover {
   cursor: pointer;
 }
 
+.pdf-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 /* The global `a` rule adds a hover underline that looks wrong on a button */
 .pdf-btn::after {
   content: none;
 }
 
-.pdf-viewer-frame {
+.pdf-frame {
   position: relative;
   flex: 1;
   min-height: 0;
@@ -275,7 +295,7 @@ img:hover {
 
 /* pdf.js positions pages against this element, so it has to be the absolute
    one and its parent the relative one. */
-.pdf-viewer-scroll {
+.pdf-scroll {
   position: absolute;
   inset: 0;
   overflow: auto;
@@ -283,45 +303,12 @@ img:hover {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Shown only where the embedded viewer cannot render (see media query below) */
-.pdf-fallback {
-  display: none;
-}
-
-/* Mobile browsers do not render PDFs inside an iframe — they leave a blank box.
-   Swap the embed for a link that opens the file in the native viewer. */
-@media (max-width: 700px) {
-  .pdf-container {
-    height: auto;
-    min-height: 0;
-  }
-
-  .pdf-container iframe {
+/* On a phone the toolbar has to share a very narrow line, and scrolling is the
+   natural way to move through a document there, so the page arrows give up
+   their space. The page counter stays. */
+@media (max-width: 480px) {
+  .pdf-group-pages .pdf-btn {
     display: none;
-  }
-
-  /* !important overrides the inline display:none the markup ships with, which
-     is what keeps the link hidden when this stylesheet has not loaded. */
-  .pdf-fallback {
-    display: block !important;
-    padding: 20px 24px;
-    text-align: center;
-    font-weight: 500;
-  }
-
-  /* The viewer is up, so give the container real height and drop the link,
-     which is no longer the only way to read the paper. Until then the
-     container stays auto-height so a failure is a compact box, not a void. */
-  .pdf-container.pdf-inline {
-    height: 70vh;
-  }
-
-  .pdf-container.pdf-inline .pdf-viewer-shell {
-    display: flex;
-  }
-
-  .pdf-container.pdf-inline .pdf-fallback {
-    display: none !important;
   }
 }
 
