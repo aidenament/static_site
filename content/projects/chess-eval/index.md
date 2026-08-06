@@ -4,17 +4,15 @@
 
 ## Evaluating Out-of-Distribution Generalization with Chess Puzzles
 
-I built 300 checkmate puzzles with progressively stranger rules, a knight that leaps (1,3), a rook that runs out of steam after four squares, to test whether frontier models are good at chess or just good at chess they've already seen. They generalize fine. Mate depth is what hurts them, weird rules don't, and the model with much worse reasoning is just as flat across the variants as the strongest one.
+### Abstract
+
+Frontier language models are trained heavily on domains like mathematics and software engineering. It is unclear how much of that performance comes from existing familiarity with tasks seen during training and how much of it generalizes to unfamiliar problems. I try to evaluate to what extent model capabilities generalize by using chess checkmate puzzles. This is a task that is seen during training, admits verifiable solutions, and allows for strange rule variants to piece movement for out-of-distribution puzzles. Puzzle difficulty is fixed within mate depth to isolate model generalization as the primary performance variable. The resulting benchmark comprises 300 puzzles spanning three mate depths and four tiers of increasing rules modifications. This benchmark is evaluated on GPT 5.6 Terra, Grok 4.5, and Gemini 3.6 flash. Accuracy clearly degrades with mate depth but is constant among rules modifications indicating that model performance does generalize to out-of-distribution variants. I tested lower reasoning variants of Terra, which score worse on ARC AGI 2, in an attempt to isolate a generalizability property, however even these lower reasoning variants have consistent scores among the modified puzzles, leading to the conclusion that the primary driver of performance is general capability.
 
 ### Links
 
 - [Results viewer](https://chess-eval-production.up.railway.app/) with all 300 puzzles, their prompts, every model answer, and the full reasoning traces
 - [Source code](https://github.com/aidenament/chess-eval) on GitHub
 - [The original report](/projects/chess-eval/Epoch_Chess_Eval.pdf) as a PDF
-
-### Abstract
-
-Frontier language models are trained heavily on domains like mathematics and software engineering. It is unclear how much of that performance comes from existing familiarity with tasks seen during training and how much of it generalizes to unfamiliar problems. I try to evaluate to what extent model capabilities generalize by using chess checkmate puzzles. This is a task that is seen during training, admits verifiable solutions, and allows for strange rule variants to piece movement for out-of-distribution puzzles. Puzzle difficulty is fixed within mate depth to isolate model generalization as the primary performance variable. The resulting benchmark comprises 300 puzzles spanning three mate depths and four tiers of increasing rules modifications. This benchmark is evaluated on GPT 5.6 Terra, Grok 4.5, and Gemini 3.6 flash. Accuracy clearly degrades with mate depth but is constant among rules modifications indicating that model performance does generalize to out-of-distribution variants. I tested lower reasoning variants of Terra, which score worse on ARC AGI 2, in an attempt to isolate a generalizability property, however even these lower reasoning variants have consistent scores among the modified puzzles, leading to the conclusion that the primary driver of performance is general capability.
 
 ### Introduction
 

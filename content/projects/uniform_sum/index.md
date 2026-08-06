@@ -12,7 +12,7 @@ $$
 \mathbb{P}(Y_{n-1} < 1 \text{ and } Y_n > 1) = \frac{n-1}{n!}
 $$
 
-Establishing this reduces to an iterated integral over the part of the unit $n$-cube where the first $n-1$ coordinates sum to less than 1 and all $n$ sum to more than 1. Linearity splits that integral into $n-1$ pieces, one for each coordinate that could be the last to push the total over. A repeated substitution collapses each piece to $1/n!$, and none of them depend on which coordinate you picked.
+Establishing this reduces to an iterated integral over the part of the unit $n$-cube where the first $n-1$ coordinates sum to less than 1 and all $n$ sum to more than 1. Linearity splits that integral into $n-1$ pieces, one for each coordinate that could be the last to push the total over. A repeated substitution collapses each piece to $1/n!$, and the value doesn't depend on which coordinate you picked. So there are $n-1$ identical pieces of size $1/n!$, which is the $(n-1)/n!$ above.
 
 Weighting each $n$ by its probability and shifting the index by two leaves the Taylor series for $e$:
 

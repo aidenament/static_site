@@ -6,7 +6,7 @@
 
 A small coding agent: four tools, one loop, about 380 lines of Python and no framework. It lists a directory, reads a file, writes a file and runs a Python file, and it keeps working on its own until it decides it's done.
 
-This one is a learning project. I wanted to build the loop by hand instead of reading about it. Strip out streaming, permissions and subagents and an agent loop turns out to be a small thing: send the conversation, run whatever tool calls come back, append the results, send it again. Doing it yourself puts the design questions in front of you, and most of them are about how you talk to the model, not how you call it.
+This one is a learning project. I wanted to build the loop by hand instead of reading about it. Strip out streaming, permissions and subagents and an agent loop turns out to be a small thing: send the conversation, run whatever tool calls come back, append the results, send it again. Doing it yourself puts the design questions in front of you.
 
 ### GitHub Repository
 
@@ -22,11 +22,9 @@ The inner loop stops at twenty tool calls, tested once per model request instead
 
 ### Writing for a Model
 
-Most of what I got out of this is in how the tool results are written, because the thing reading them is a model.
-
 Tools report failures by returning a string. A bad path comes back as "Error: ..." on the same channel as a success, so the model sees its own mistake and recovers instead of the process dying. It isn't airtight: an unreadable directory still raises, and no schema marks its parameters required, so a call that omits one dies inside the tool.
 
-The rest is small stuff that turns out to matter. Reads stop at 10,000 characters and say so in the text they return. A script that prints nothing gets back "No output produced" instead of an empty string, and a nonzero exit adds a line with the code. Writes return a character count the model can check against what it meant to write. Directory listings wrap each entry's checks separately, so one unreadable file becomes an error on that row and the rest of the listing survives.
+Reads stop at 10,000 characters and say so in the text they return. A script that prints nothing gets back "No output produced" instead of an empty string, and a nonzero exit adds a line with the code. Writes return a character count the model can check against what it meant to write. Directory listings wrap each entry's checks separately, so one unreadable file becomes an error on that row and the rest of the listing survives.
 
 ### Containment
 

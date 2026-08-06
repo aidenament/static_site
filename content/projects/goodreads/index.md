@@ -8,8 +8,6 @@
 
 The name is the point. It's Goodreads for a group of friends and nobody else, which is why there's no signup route and why one of the pages is a wall for slandering each other. Daryan is blocked from posting on it. The endpoint answers him with a 403 and "Nice try, Daryan."
 
-It serves a handful of people and it's built like it serves a lot more. That was the idea. A small app with real users is the cheapest place I know to practice the parts that only matter at scale, and nothing here is hypothetical: the cache, the query shapes and the migrations all run in production every day, against people who complain when it's slow.
-
 ### Architecture
 
 FastAPI owns authentication, data access, the external API integrations and asset serving. It renders exactly one Jinja template: a nineteen line shell holding a JSON bootstrap payload and the Vite manifest tags. React takes over from there, with all ten page components lazily loaded behind Suspense.
