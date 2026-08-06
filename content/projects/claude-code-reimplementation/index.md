@@ -4,9 +4,7 @@
 
 ## Building an Agent Loop From Scratch on Google Gemini
 
-A small coding agent: four tools, one loop, about 380 lines of Python and no framework. It lists a directory, reads a file, writes a file and runs a Python file, and it keeps working on its own until it decides it's done.
-
-This one is a learning project. I wanted to build the loop by hand instead of reading about it. Strip out streaming, permissions and subagents and an agent loop turns out to be a small thing: send the conversation, run whatever tool calls come back, append the results, send it again. Doing it yourself puts the design questions in front of you.
+A small coding agent: four tools, one loop, about 380 lines of Python. It lists a directory, reads a file, writes a file and runs a Python file, and it keeps working on its own until it decides it's done.
 
 ### GitHub Repository
 
