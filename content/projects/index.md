@@ -15,4 +15,6 @@ Welcome to my projects page! Here you'll find a collection of my work in mathema
 
 ### Software Development
 
-- [Claude Code Reimplementation](/projects/claude-code-reimplementation) - An AI-powered development assistant reimplemented with Gemini AI for Python development and file system operations.
+- [Out-of-Distribution Generalization in Chess Puzzles](/projects/chess-eval) - An LLM eval testing whether puzzle-solving generalizes to unfamiliar rules, built on a from-scratch variant chess engine. Search depth dominated; distance from the training distribution did not show up.
+- [Goodreads for Friends](/projects/goodreads) - A books and games tracking app at shutthehellupdaryan.com, built with FastAPI and React for an invite-only group of friends.
+- [Claude Code Reimplementation](/projects/claude-code-reimplementation) - A from-scratch study of the agent loop: four tools and a while loop on Gemini, written without a framework to make the design questions visible.
