@@ -2,46 +2,52 @@
 
 [< Back to Projects](/projects)
 
-## A From-Scratch Study of the Agent Loop
+## An Agentic Coding Assistant Built on Google Gemini
 
-An agentic coding assistant built on Google Gemini, in about 380 lines of Python with no framework. It gives the model four tools, lists a directory, reads a file, writes a file, and runs a Python file, then lets it work autonomously until it decides it is finished.
+An agentic coding assistant written from scratch in about 380 lines of Python, with no agent framework. It gives the model four tools, listing a directory, reading a file, writing a file, and running a Python file, then lets it work on its own until it decides the task is done.
 
-The point was to understand the pattern rather than to ship a product. Stripped of streaming, permissions, and subagents, an agent loop is a small thing: send the conversation, execute whatever tools come back, append the results, and send it again. Writing that by hand makes the design questions visible in a way that using a framework does not.
+The goal was to understand the pattern by building it. Stripped of streaming, permissions, and subagents, an agent loop is a small thing: send the conversation, execute whatever tool calls come back, append the results, and send it again. Writing that by hand makes the design questions visible in a way that using a framework does not.
 
 ### GitHub Repository
 
 View the source code: [github.com/aidenament/Claude-Code-Reimplementation](https://github.com/aidenament/Claude-Code-Reimplementation)
 
-### How the Loop Works
+### The Agent Loop
 
-Two nested loops. The outer one is a user turn; the inner one is the model working on its own. Each model response is appended to the history, every tool call in it is executed, and each result is appended as a tool message. When a response comes back with no tool calls at all, that is the termination signal: the loop prints the text and hands control back to the user.
+Two nested loops. The outer one is a user turn; the inner one is the model working autonomously. Each model response is appended to the history, every tool call it contains is executed, and each result is appended as a tool message before the next request goes out.
 
-Inferring termination from an empty tool call list is the simplest thing that works, and it has one real consequence worth naming. The model cannot distinguish "I am finished" from "I am stuck," because both look identical from outside.
+Termination is inferred rather than declared. When a response comes back containing no tool calls, that is the signal that the model is finished: the loop prints its text and returns control to the user. This avoids inventing a dedicated "done" tool, at the cost that a model which is stuck looks exactly like a model which is finished.
 
-A few details in the tool layer are worth calling out, because they are the parts that separate an agent loop that works from one that quietly confuses the model:
+The inner loop is bounded at twenty tool calls per turn. The bound is tested once per model request rather than once per call, so a response carrying several calls at once runs all of them and can finish slightly over the limit. On reaching it the loop reports that it stopped and returns to the prompt with the conversation history intact, so the work so far can be inspected and continued rather than discarded.
 
-- **Errors are values, not exceptions.** Every tool returns a string, including its failures. A bad path comes back as "Error: ..." in the same channel as a successful result, so the model reads its own mistake and can correct it instead of the process dying.
-- **Truncation is announced.** Reads are capped at 10,000 characters, and the notice is appended into the returned text rather than the file being silently cut short. The model is told its read was incomplete.
-- **Empty output gets a sentinel.** A script that prints nothing returns "No output produced" rather than an empty string, and a nonzero exit adds an explicit line saying so. Handing a model a blank tool result is a common way to confuse it.
-- **Parallel calls are handled.** The loop iterates over every tool call in a response and appends a separate result for each, so a model that requests three at once gets three answers. Naive implementations tend to service only the first.
-- **The call budget is a checkpoint, not a failure.** Twenty tool calls per turn, and on exhaustion it says so and returns to the prompt with the conversation intact, so the work can be inspected and resumed rather than lost.
+Responses carrying several tool calls at once are fully serviced, with a separate result appended for each, so the model can request a directory listing and two file reads in one turn and get all three answers back.
 
-The tool schemas are four hand-written declarations, kept in a different file from the functions that implement them. There is no reflection over the Python signatures, which means the schema and the implementation have to be maintained in parallel by hand.
+### Tool Design
 
-### The Containment Boundary
+The results are shaped for a reader that is a language model rather than a person.
 
-The one design decision I would defend without reservation is that the working directory root is never part of any tool's schema. The model can name a path but never its base; the dispatcher supplies the root itself. That is the right shape, because it means the agent cannot widen its own scope through an argument, which is the failure mode that matters.
+**Errors are values, not exceptions.** Tools report their failures by returning a string rather than raising. A bad path comes back as an "Error: ..." string through the same channel as a successful result, so the model reads its own mistake and can correct course instead of the process terminating. The convention is not airtight: an unreadable directory still raises out of the listing, and because no schema marks its parameters required, a call that omits one fails inside the tool rather than returning a message the model could act on.
 
-The enforcement underneath it is weaker than the design. Each tool resolves the requested path and compares it to the root with a string prefix test. A prefix test on a path is not containment, and it fails in at least three ways: a sibling directory whose name merely starts with the root's name passes it, since the resolved root carries no trailing separator; a symlink inside the root passes it, because resolving a path lexically does not follow links; and the check does not survive a root-relative path. The correct primitive is a real containment check, comparing the common path of the two resolved paths rather than comparing them as strings.
+**Truncation is announced.** File reads are capped at 10,000 characters, and the notice is appended into the returned text rather than the content being silently cut short, so the model knows its view is partial.
 
-The repository's own smoke script probes this boundary rather than the happy path, and it catches the case it tests. It just never tested a sibling directory or a symlink, which is exactly why those survived.
+**Empty output gets a sentinel.** A script that prints nothing returns an explicit "No output produced" rather than an empty string, and a nonzero exit adds a line stating the exit code. Standard output and standard error are labelled separately, so a silent run is distinguishable from a run that produced nothing to say.
 
-Execution is likewise bounded in scope but not isolated. A subprocess is launched with the working directory as its starting point and a thirty second timeout. A starting directory is not a jail: the child runs as the same user, inherits the full environment, and keeps its network. The three real limits are that the script file must live under the root, must end in .py, and must finish inside the timeout.
+**Writes confirm what happened.** A successful write returns the path and the number of characters written, which the model can check against what it intended.
 
-### What It Is Not
+**Listings degrade per entry.** Directory listings wrap the size and directory checks for each entry individually, so a single unreadable file becomes an inline error on that row instead of failing the whole listing.
 
-Worth being direct, since the name invites the comparison. This is four tools and a while loop. There is no shell tool, no search, no diff-based editing (writes replace a whole file), no permission prompts, no subagents, no context compaction, and no streaming. There is also no retry around the API call, and the conversation lives only in memory, so a rate limit or a dropped connection ends the session and takes the history with it. Calling it a study of the agent loop is accurate; calling it a functional replacement for the tool it is named after is not.
+### Tool Declarations and Dispatch
 
-### Stack
+The four tool schemas are hand written declarations, kept separately from the functions implementing them. There is no reflection over the Python signatures, so the schema and the implementation are maintained in parallel by hand. Dispatch is an explicit match on the tool name, and an unrecognized name returns an error result rather than raising.
 
-Python with the Google Gen AI SDK, targeting Gemini 2.5 Flash. No web framework, no database, no dependencies beyond the SDK and a dotenv loader. Roughly 380 lines for the agent, plus a small calculator application used as something for the agent to work on.
+The working directory root is deliberately absent from every tool schema. The model can name a path but never its base; the dispatcher supplies the root itself, so the root cannot be redefined by the model.
+
+Each tool then resolves the requested path and compares it against that root before acting. The comparison is a string prefix test, which is the loose form of the check: a strict version would compare the common path of the two resolved paths, which is what correctly rejects a sibling directory sharing a name prefix, and would resolve symbolic links rather than normalizing them lexically.
+
+Execution runs the target file as a subprocess with the working directory as its starting point and a thirty second timeout, and only files ending in .py are eligible.
+
+### Technologies Used
+
+- **Python** with the Google Gen AI SDK
+- **Gemini 2.5 Flash**, pinned to the `gemini-2.5-flash-preview-05-20` snapshot
+- No web framework, database, or dependencies beyond the SDK and a dotenv loader

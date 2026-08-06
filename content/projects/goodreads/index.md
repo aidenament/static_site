@@ -2,69 +2,69 @@
 
 [< Back to Projects](/projects)
 
-## A Books and Games Tracking App, Built for a Small Group of Friends
+## A Website to Host Book and Game Reviews in FastAPI and React
 
-[shutthehellupdaryan.com](https://shutthehellupdaryan.com/) is a media tracker my friends and I use to log books and games, rate them in half stars, and argue about them in the reviews. It is deliberately invite only. There is no signup route anywhere in the application; accounts are created by an admin endpoint or a command line script.
+[shutthehellupdaryan.com](https://shutthehellupdaryan.com/) is a media tracker for logging books and games, rating them in half stars, and reviewing them. Accounts are invite only: there is no signup route, and they are created through an admin endpoint or a command line script. The reviews themselves are publicly readable.
 
-The name comes from the Wall of Slander, a sticky note board where anyone can pin a note. One specific user is blocked from posting by a flag on his account, and the endpoint answers him with a 403 and the message "Nice try, Daryan."
-
-### What It Does
-
-- Tracks books and games behind one mode toggle that swaps the homepage, profile, and detail surfaces
-- Searches books through Hardcover's GraphQL API and games through IGDB, marking results already on your shelf
-- One review per user per item, enforced by a database constraint, rated in half stars with an optional markdown body
-- Autosaves review drafts to local storage per form, so a half written review survives a refresh
-- Uploads images into reviews through Cloudinary, and deletes them from Cloudinary when the review is deleted
-- Lets users upvote and downvote each other's reviews, but never their own
-- Highlights favorites, least favorites, and whatever you are currently reading or playing, chosen from server generated candidate lists
+The backend is FastAPI over PostgreSQL with an optional Redis cache. The frontend is a React single page application. It is deployed on Railway.
 
 ### Architecture
 
-FastAPI serves the API, owns authentication, and renders exactly one Jinja template: a nineteen line shell that embeds a JSON bootstrap payload and the Vite asset tags. A React 19 single page app takes over from there, with all ten page components lazily loaded.
+FastAPI owns authentication, data access, the external API integrations, and asset serving. It renders exactly one Jinja template: a nineteen line shell that embeds a JSON bootstrap payload and the Vite manifest tags. React takes over from there, with all ten page components lazily loaded behind Suspense.
 
-The interesting part is that the shell ships the page's data inline. The homepage HTML already contains the users, items, featured review, and CSRF token, and the client seeds that payload directly into its cache, so the first React render is a cache hit rather than a fetch. The same payload shape is served from an API route for the Vite dev server, where no server rendered script tag exists.
+The shell ships each page's data inline rather than leaving the client to fetch it after mount. The homepage HTML already contains the user cards, item cards, featured review, and CSRF token, and the client seeds that payload straight into its cache, so the first React render is a cache hit instead of a round trip. The same payload shape is served from an API endpoint for the Vite dev server, where no server rendered script tag exists.
 
-Behind the routers sit fourteen service modules and ten SQLAlchemy models. The homepage and profile feeds are assembled from grouped aggregate subqueries joined in a single pass, rather than counting reviews per row, so the feed does not degrade into an N+1.
+Behind the routers are fourteen service modules and ten SQLAlchemy models. Routers are split by concern rather than by resource: the books router is a ten line aggregator over separate page, API, and mutation modules, which separates read handling from writes without changing any route paths.
 
-### Decisions Worth Explaining
+### Query Design
 
-**Cache invalidation by tag, not by key pattern.** Writing a cached value also records its key in a Redis set, so invalidating a topic is one pipelined read and delete instead of a scan. Tag sets carry an extra hour of grace so orphans expire on their own. The process local fallback implements the same semantics with a dictionary of sets.
+The homepage and profile feeds need aggregates per user and per item: review counts, average ratings, items added, and the date of the most recent review. Each aggregate is computed by its own grouped subquery and joined onto the base table in a single pass, rather than being counted per row, so the feed does not turn into an N+1 as the number of users grows.
 
-**Cached payloads are user agnostic.** The item blob and its paginated review list are cached once for everyone, and per user fields like your vote and your permissions are layered on afterward with small queries. One cache entry serves anonymous and signed in traffic alike.
+The startup script runs `alembic upgrade head` on every boot. The performance migrations inspect the live schema and skip any index that is already present, which keeps them from failing against a database where an index was created outside the migration chain or by a partially applied revision.
 
-**Passwords are hashed before they are hashed.** bcrypt silently truncates at 72 bytes, so passwords are run through SHA-256 and base64 first. The docstring cites the pyca/bcrypt recommendation that suggests it.
+### Caching
 
-**A circular foreign key is defused by hand.** Users point at their favorite, least favorite, and currently reading book with no cascade behavior, so deleting a book first finds every user pinning it, nulls those columns, flushes to force the ordering, and only then deletes.
+The cache exposes one interface with two implementations, Redis in production and a process local dictionary with matching semantics as a fallback, selected once at first use after a ping.
 
-**Migrations are safe to re-run.** The startup script runs `alembic upgrade head` on every boot, so the index migrations inspect the live schema and skip indexes that already exist rather than failing against a database that has them.
+Invalidation is by tag rather than by key pattern. Writing a cached value also records its key in a set, so invalidating a topic reads that set and deletes its members instead of scanning the keyspace. Tag sets carry an extra hour of expiry so orphaned entries clean themselves up.
 
-**Races are handled, not just declared.** Two sticky notes claiming the same slot and a double submitted vote both raise integrity errors, and both are caught, rolled back, and turned into a sensible response instead of a 500.
+Cached payloads are deliberately user agnostic. The item blob and its paginated review list are cached once and shared by every reader; the fields that vary per viewer, their vote and their permissions on the item, are attached afterward with small queries. One cache entry then serves anonymous and signed in traffic alike.
 
-**Contract tests across the language boundary.** A suite of Python tests encodes the payload shapes the TypeScript validators expect, so a drift between the FastAPI response and the Zod schema fails immediately rather than at runtime in a browser.
+Invalidating the homepage, a profile, or the slander wall also schedules an immediate re-warm of that same view on a background thread, so the next reader does not pay for the miss. A periodic loop started from the application lifespan refreshes the homepage and a sample of recently touched profiles, pushing the blocking database work through a thread pool so the event loop stays free.
 
-### Honest Notes
+### Correctness Details
 
-Worth stating plainly, because a reader looking at the live site will notice:
+Several paths required explicit handling.
 
-- **It is not a private app.** The homepage, profiles, and item details are all readable without signing in. Search, the slander wall, and every mutation require a session, but the reviews themselves are public.
-- **It runs at friend group scale.** Two users and a couple dozen items. The caching and index work are real, but nothing here has been demonstrated under load.
-- **Rate limits are per process and in memory.** Each router builds its own limiter, there is no shared store, and the deployment trusts forwarded client headers, so the limits deter accidents rather than a determined attacker.
-- **Caching falls back silently.** Without a cache URL, or if the ping fails, it drops to a per process dictionary and logs a warning.
-- **There is no CI.** The test suites run as build phases on Railway, which gates deploys, but nothing runs them on push.
-- **Tailwind is installed but effectively unused.** The UI is hand written CSS: a base stylesheet of custom properties plus per component style blocks.
+**Unique constraints are enforced under races.** Two users claiming the same sticky note slot, and a double submitted vote, both raise integrity errors. Each is caught, rolled back, and returned as a meaningful status rather than a 500.
+
+**A circular foreign key is unwound by hand.** Users point at their favorite, least favorite, and current book, and those columns carry no cascade behavior, so deleting a book first finds every user pinning it, clears those columns, flushes to force the ordering, and only then deletes.
+
+**Long passwords are pre-hashed.** bcrypt truncates silently at 72 bytes, so passwords are run through SHA-256 and base64 first, following the recommendation from the bcrypt maintainers.
+
+**Review markdown is rendered through an allowlist.** Bodies are rendered, sanitized against an explicit tag and protocol allowlist, then passed through a filter that replaces any image source not served by the CDN. The rendered HTML is cached keyed on the review's update timestamp, so editing a review invalidates it without an explicit bust.
+
+### The Client Data Layer
+
+The frontend uses no data fetching library. It has a small TTL cache, a hook that reads from it, and Zod schemas that validate the main payloads at the boundary, dispatched by URL pattern as responses come back.
+
+Two details matter for correctness. The bootstrap payload is seeded during render behind a guard, because re-seeding on later renders would reset each entry's stored timestamp, freezing its TTL and overwriting freshly fetched data with the initial snapshot. And every request threads an abort signal that fires on key change or unmount, with the error and loading transitions suppressed once aborted, which is the usual source of state updates on unmounted components in a hand rolled layer.
+
+A suite of backend tests encodes the payload shapes the TypeScript validators expect, written as Python assertions mirroring them rather than by importing them. A response that drifts from that mirror fails in the backend suite instead of surfacing as a validation error in the browser.
+
+### Instrumentation
+
+A small timing context manager wraps named database operations and logs their duration as labelled key and value pairs, and a middleware records request duration, cache backend, and a correlation ID for the handful of hot path prefixes. Logs are JSON in production and human readable in development, with the request ID echoed back as a response header.
 
 ### Scale and Testing
 
-Sixty-one HTTP endpoints, of which twenty-eight change state, and all twenty-eight validate a CSRF token. Ten models, forty-three Pydantic schemas, eighteen migrations in a single linear chain, and twelve rate limited endpoints.
+Sixty-one HTTP endpoints, twenty-eight of which change state, and every one of those twenty-eight validates a CSRF token. Ten models, forty-one Pydantic schemas, and eighteen migrations in a single linear chain.
 
-The backend has 222 tests passing at 78% line coverage. The frontend has considerably less: fourteen tests over roughly eleven thousand lines of TypeScript, with the two largest components untested and no end-to-end tests at all.
+The backend suite is 222 tests at 78% line coverage, and the frontend adds fourteen, of which eight render components and the rest cover the validators and bootstrap parsing. Both run as Railway build phases and gate the deploy. The application is roughly 8,600 lines of Python and 11,000 lines of TypeScript and CSS, with a further 5,200 lines of Python tests, across 232 commits.
 
-Roughly 8,500 lines of Python and 11,000 lines of TypeScript and CSS, across 232 commits.
+### Technologies Used
 
-### Stack
-
-**Backend:** FastAPI, SQLAlchemy 2.0, Alembic, Pydantic, PostgreSQL in production and SQLite locally, optional Redis, JWT in httpOnly cookies, bcrypt, bleach and markdown2 for review rendering, tenacity for outbound retries.
-
-**Frontend:** React 19, React Router 7, TypeScript, Vite, Zod for response validation, Vitest.
-
-**Deployment:** Railway with Nixpacks, which installs, runs both test suites, builds the frontend, applies migrations, and then starts uvicorn.
+- **Backend**: FastAPI, SQLAlchemy 2.0, Alembic, Pydantic, PostgreSQL, Redis, JWT in httpOnly cookies, bcrypt, bleach and markdown2, tenacity
+- **Frontend**: React 19, React Router 7, TypeScript, Vite, Zod, Vitest
+- **Integrations**: Hardcover GraphQL API for books, IGDB for games, Cloudinary for image hosting
+- **Deployment**: Railway with Nixpacks
