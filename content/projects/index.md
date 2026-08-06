@@ -8,7 +8,7 @@ A collection of my work in mathematics, machine learning, and software.
 
 ### Machine Learning & Software
 
-- [Epoch Chess Eval](/projects/chess-eval) - A set of 300 checkmate puzzles with increasingly unusual rules. Models adapted to the new rules fairly well, but struggled when the mating lines got longer.
+- [Chess Eval](/projects/chess-eval) - A set of 300 checkmate puzzles with increasingly unusual rules. Models adapted to the new rules fairly well, but struggled when the mating lines got longer.
 - [Goodreads for Friends](/projects/goodreads) - A book and game review site I built for a group of friends using FastAPI and React.
 - [Claude Code Reimplementation](/projects/claude-code-reimplementation) - A small coding agent built on Gemini.
 

@@ -1,8 +1,6 @@
-# Epoch Chess Eval
+# Chess Eval
 
 [< Back to Projects](/projects)
-
-## Evaluating Out-of-Distribution Generalization with Chess Puzzles
 
 ### Abstract
 
@@ -12,7 +10,7 @@ Frontier language models are trained heavily on domains like mathematics and sof
 
 - [Results viewer](https://chess-eval-production.up.railway.app/) with all 300 puzzles, their prompts, every model answer, and the full reasoning traces
 - [Source code](https://github.com/aidenament/chess-eval) on GitHub
-- [The original report](/projects/chess-eval/Epoch_Chess_Eval.pdf) as a PDF
+- [The original report](/projects/chess-eval/Chess_Eval.pdf) as a PDF
 
 ### Introduction
 
