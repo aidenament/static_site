@@ -3,7 +3,7 @@
 Former<br>
 **Scholar Athlete**
 
-![Aiden Smile](/images/headshot.jpg)
+![Aiden Smile](/images/headshot.webp)
 
 Here's the deal: **I made a website**.
 Well, first I made a markdown-to-HTML parser, and then I made a website. Why? Because I could.
@@ -16,7 +16,7 @@ Well, first I made a markdown-to-HTML parser, and then I made a website. Why? Be
 
 I graduated from UCLA in 2024 with a degree in **math and computer science**. My coursework ranged across pure and applied topics, and the highlight was studying complex analysis with Professor Terence Tao.
 
-![Aiden Rowing](/images/rowing_action.jpg)
+![Aiden Rowing](/images/rowing_action.webp)
 
 My time there was split between academics and athletics: I rowed four years on the UCLA team. Between classes and practice, I also worked with friends to found the [AI Safety club](https://aisafetyatucla.org/), a space to teach the importance of safe AI development and to pursue safety-related projects.
 
@@ -29,7 +29,7 @@ After graduation I joined a small startup as a **machine learning engineer** wor
 
 ## Book Reviews
 
-![Kingdoms of Death](/images/kingdoms-of-death.jpg)
+![Kingdoms of Death](/images/kingdoms-of-death.webp)
 
 In my free time I like to read fantasy and science fiction novels. I fell out of the habit of reading for fun in high school and college, until **The Wheel of Time** by Robert Jordan rekindled my love of reading and storytelling. Since then, I've been reading through both genres and made a [Goodreads knockoff](https://shutthehellupdaryan.com/) to review books with my friends.
 
