@@ -41,8 +41,13 @@ def recursive_copy(source_path, destination_path):
             print(f"Copying file: {source_item_path} -> {destination_item_path}")
             shutil.copy2(source_item_path, destination_item_path)
 
+MATHJAX = """    <script>
+      window.MathJax = { options: { enableMenu: false } };
+    </script>
+    <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>"""
+
 def generate_page(from_path, template_path, dest_path, basepath="/"):
-   
+
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     
     # Read the markdown file
@@ -72,6 +77,15 @@ def generate_page(from_path, template_path, dest_path, basepath="/"):
     filled_template = filled_template.replace("{{basepath}}", basepath)
     filled_template = filled_template.replace("{{cssversion}}", asset_version("static/index.css"))
     filled_template = filled_template.replace("{{jsversion}}", asset_version("static/pdf-embed.js"))
+
+    # Only pull in MathJax where there is actually math to typeset, so the
+    # pages without equations do not pay for the CDN fetch.
+    has_math = 'class="math-inline"' in html_content or 'class="math-display"' in html_content
+    if has_math:
+        filled_template = filled_template.replace("{{mathjax}}", MATHJAX)
+    else:
+        # Take the newline with it, so pages without math keep a clean head.
+        filled_template = filled_template.replace("{{mathjax}}\n", "")
 
     # Replace absolute URLs with basepath-prefixed URLs
     filled_template = filled_template.replace('href="/', f'href="{basepath}')

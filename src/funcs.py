@@ -3,6 +3,16 @@ from textnode import *
 from markdownblock import *
 import re
 
+def escape_html(text):
+    """Escape the three characters that would otherwise break out of the markup.
+
+    Nothing else in this generator escapes, because everything else is authored
+    as markdown. Math is the exception: TeX uses < and > as relations, and an
+    unescaped one would be parsed as a tag. MathJax reads textContent, so it
+    sees the decoded character either way.
+    """
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
 def text_node_to_html_node(text_node):
     match text_node.text_type:
         case TextType.TEXT:
@@ -17,6 +27,14 @@ def text_node_to_html_node(text_node):
             return LeafNode(tag="a", value=text_node.text, props={"href": text_node.url})
         case TextType.IMAGE:
             return LeafNode(tag="img", value="", props={"src": text_node.url, "alt": text_node.text})
+        case TextType.MATH:
+            # \( \) is MathJax's default inline delimiter, so no client config
+            # is needed. The span is only a styling hook.
+            return LeafNode(
+                tag="span",
+                value=f"\\({escape_html(text_node.text)}\\)",
+                props={"class": "math-inline"}
+            )
         case TextType.PDF:
             return LeafNode(tag="iframe", value="", props={
                 "src": text_node.url, 
@@ -171,6 +189,42 @@ def split_nodes_pdfs(old_nodes):
     
     return new_nodes
 
+def split_nodes_math(old_nodes):
+    """Pull $...$ spans out as MATH nodes.
+
+    This runs before every other splitter so that TeX is never touched by the
+    inline formatters. Subscripts are the reason: x_1 ... x_n would otherwise
+    be read as an italic delimiter pair and the underscores eaten.
+    """
+    new_nodes = []
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
+
+        if not old_node.text:
+            continue
+
+        text = old_node.text
+        # Non-greedy and newline-aware so a span can wrap across a soft break.
+        math_matches = list(re.finditer(r'\$(.+?)\$', text, re.DOTALL))
+
+        if not math_matches:
+            new_nodes.append(old_node)
+            continue
+
+        last_end = 0
+        for match in math_matches:
+            if match.start() > last_end:
+                new_nodes.append(TextNode(text[last_end:match.start()], TextType.TEXT))
+            new_nodes.append(TextNode(match.group(1), TextType.MATH))
+            last_end = match.end()
+
+        if last_end < len(text):
+            new_nodes.append(TextNode(text[last_end:], TextType.TEXT))
+
+    return new_nodes
+
 def apply_delimiter_to_all_nodes(nodes, delimiter, text_type):
     """Apply delimiter formatting to all nodes, including links and images."""
     result = []
@@ -201,7 +255,9 @@ def apply_delimiter_to_all_nodes(nodes, delimiter, text_type):
 
 def text_to_textnodes(text):
     nodes = [TextNode(text, TextType.TEXT)]
-    # First process links, images, and PDFs
+    # Math first: it is the only span whose contents must survive verbatim.
+    nodes = split_nodes_math(nodes)
+    # Then links, images, and PDFs
     nodes = split_nodes_links(nodes)
     nodes = split_nodes_images(nodes)
     nodes = split_nodes_pdfs(nodes)
@@ -272,6 +328,10 @@ def block_to_block_type(block):
     #check if the block starts with triple backticks and ends with triple backticks
     elif block.startswith("```pdf") and block.endswith("```"):
         return BlockType.PDF
+    # Checked before CODE so a display equation is not mistaken for a fence,
+    # and before PARAGRAPH so inline $...$ in prose still falls through.
+    elif block.startswith("$$") and block.endswith("$$") and len(block) > 4:
+        return BlockType.MATH
     elif block.startswith("```") and block.endswith("```"):
         return BlockType.CODE
     #if every line starts with > and there is no empty line
@@ -350,6 +410,12 @@ def markdown_to_html_node(markdown):
                     {"class": "pdf-container"}
                 )
                 nodes.append(container)
+            case block_type.MATH:
+                # Strip the delimiters and hand MathJax its display form. The
+                # wrapper is what scrolls when an equation outruns a phone.
+                tex = block[2:-2].strip()
+                equation = LeafNode(None, f"\\[{escape_html(tex)}\\]")
+                nodes.append(ParentNode("div", [equation], {"class": "math-display"}))
             case block_type.QUOTE:
                 # Remove the > prefix from each line
                 quote_text = "\n".join([line[2:] for line in block.split("\n")])

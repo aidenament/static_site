@@ -501,6 +501,34 @@ class TestFuncs(unittest.TestCase):
         self.assertEqual(block_to_block_type("Multi-line\nparagraph text"), BlockType.PARAGRAPH)
         self.assertEqual(block_to_block_type("Special chars !@#$%^&*()"), BlockType.PARAGRAPH)
 
+    def test_block_to_block_type_math(self):
+        # Display equations are delimited by $$
+        self.assertEqual(block_to_block_type("$$\nE = mc^2\n$$"), BlockType.MATH)
+        self.assertEqual(block_to_block_type("$$x$$"), BlockType.MATH)
+        # A bare pair of delimiters has no equation in it
+        self.assertEqual(block_to_block_type("$$$$"), BlockType.PARAGRAPH)
+        # Inline math in prose must stay a paragraph
+        self.assertEqual(block_to_block_type("Let $n > 1$ be given"), BlockType.PARAGRAPH)
+
+    def test_split_nodes_math_protects_tex(self):
+        # Subscripts are the reason math is split before the italic delimiter
+        nodes = text_to_textnodes("Let $X_1 + X_2$ be a sum")
+        self.assertEqual(nodes[1], TextNode("X_1 + X_2", TextType.MATH))
+        # Formatting outside the math span still applies
+        nodes = text_to_textnodes("$a_n$ is **bold** here")
+        self.assertIn(TextNode("bold", TextType.BOLD), nodes)
+
+    def test_math_html_escapes_relations(self):
+        # An unescaped < would be parsed as the start of a tag
+        html = markdown_to_html_node("Suppose $a < b$ holds").to_html()
+        self.assertIn("\\(a &lt; b\\)", html)
+        self.assertNotIn("<b\\)", html)
+
+    def test_math_display_block_to_html(self):
+        html = markdown_to_html_node("$$\n\\frac{1}{2(n+1)}\n$$").to_html()
+        self.assertIn('<div class="math-display">', html)
+        self.assertIn("\\[\\frac{1}{2(n+1)}\\]", html)
+
     # Tests for extract_title function
     def test_extract_title_basic(self):
         markdown = "# Hello\nThis is content"

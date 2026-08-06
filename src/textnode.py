@@ -8,6 +8,7 @@ class TextType(Enum):
     LINK = "link"
     IMAGE = "image"
     PDF = "pdf"
+    MATH = "math"
 
 
 class TextNode:

@@ -4,19 +4,17 @@
 
 ![Dancing monkey](/images/monkey.gif)
 
-Welcome to my projects page! Here you'll find a collection of my work in mathematics, computer science, and machine learning. Each project represents a unique challenge I've tackled or random problem I decided to pursue.
+Welcome to my projects page! Here you'll find a collection of my work in mathematics, computer science, and machine learning.
 
 ### Mathematics & Theory
 
-- [Sum of Uniform Random Variables](/projects/uniform_sum) - Finds the expected number of i.i.d variables uniformly distributed between 0 and 1 needed to be summed in order to exceed one. Very satisfying answer.
-- [Hartogs' Extension Theorem](/projects/hartogs) - A study of extending holomorphic functions in several complex variables.
-- [Conformal Mapping Techniques](/projects/conformal) - Conformal invariance proof and applications of conformal mappings of Complex Brownian motion.
-- [Expected Value of A Random Point in a Square to its Nearest Edge](/projects/expected_val) - Finds the expected distance between a point chosen at random in a unit square to the nearest edge.
+- [Sum of Uniform Random Variables](/projects/uniform_sum) - How many independent uniform variables on [0, 1] must be summed before the total first exceeds 1? The expected number is exactly e.
+- [Hartogs' Extension Theorem](/projects/hartogs) - In two or more complex variables, a holomorphic function extends across a hole in its domain. A proof of the theorem and a survey of its stronger forms.
+- [Conformal Invariance of Brownian Motion](/projects/conformal) - A proof of Lévy's theorem, that a conformal map carries complex Brownian motion to Brownian motion under a change of time, and a probabilistic proof of Liouville's theorem.
+- [Expected Distance to the Nearest Face of an n-Cube](/projects/expected_val) - The expected distance from a random interior point of the unit n-cube to its nearest face, and what the answer says about volume in high dimensions.
 
 ### Software Development
 
 - [Claude Code Reimplementation](/projects/claude-code-reimplementation) - An AI-powered development assistant reimplemented with Gemini AI for Python development and file system operations.
 - [Story Teller AI](/projects/story-teller) - An interactive AI-powered storytelling application featuring Boop Boop the Storytelling Elephant for children aged 5-10.
 - [Gator RSS Aggregator](/projects/gator) - A command-line RSS feed aggregator written in Go with multi-user support and automatic content aggregation.
-
-Each project page contains detailed explanations and the mathematical foundations behind my work. Feel free to explore these topics and reach out if you have questions.
