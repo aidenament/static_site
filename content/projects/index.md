@@ -4,17 +4,17 @@
 
 ![Dancing monkey](/images/monkey.gif)
 
-Welcome to my projects page! Here you'll find a collection of my work in mathematics, computer science, and machine learning.
+A collection of my work in mathematics, machine learning, and software.
 
-### Mathematics & Theory
+### Machine Learning & Software
 
-- [Sum of Uniform Random Variables](/projects/uniform_sum) - How many independent uniform variables on [0, 1] must be summed before the total first exceeds 1? The expected number is exactly e.
-- [Hartogs' Extension Theorem](/projects/hartogs) - In two or more complex variables, a holomorphic function extends across a hole in its domain. A proof of the theorem and a survey of its stronger forms.
-- [Conformal Invariance of Brownian Motion](/projects/conformal) - A proof of Lévy's theorem, that a conformal map carries complex Brownian motion to Brownian motion under a change of time, and a probabilistic proof of Liouville's theorem.
-- [Expected Distance to the Nearest Face of an n-Cube](/projects/expected_val) - The expected distance from a random interior point of the unit n-cube to its nearest face, and what the answer says about volume in high dimensions.
+- [Epoch Chess Eval](/projects/chess-eval) - 300 checkmate puzzles under progressively stranger rules, to test whether frontier models are good at chess or just good at chess they've seen before. They generalize fine; mate depth is what hurts them.
+- [Goodreads for Friends](/projects/goodreads) - A books and games review site at shutthehellupdaryan.com, built with FastAPI and React for a group of friends and nobody else.
+- [Claude Code Reimplementation](/projects/claude-code-reimplementation) - Four tools and a while loop on Gemini, written without a framework to see what an agent loop actually is.
 
-### Software Development
+### Mathematics
 
-- [Out-of-Distribution Generalization in Chess Puzzles](/projects/chess-eval) - An LLM eval testing whether puzzle-solving generalizes to unfamiliar rules, built on a from-scratch variant chess engine. Search depth dominated; distance from the training distribution did not show up.
-- [Goodreads for Friends](/projects/goodreads) - A books and games tracking app at shutthehellupdaryan.com, built with FastAPI and React for an invite-only group of friends.
-- [Claude Code Reimplementation](/projects/claude-code-reimplementation) - A from-scratch study of the agent loop: four tools and a while loop on Gemini, written without a framework to make the design questions visible.
+- [Sum of Uniform Random Variables](/projects/uniform_sum) - How many random numbers from [0, 1] do you need to add before the total passes 1? The answer is e, and there's no exponential anywhere in the setup.
+- [Expected Distance to the Nearest Face of an n-Cube](/projects/expected_val) - Drop a point in a unit square and it sits 1/6 from the nearest edge. One closed form covers every dimension, and it says something about where volume goes as n grows.
+- [Hartogs' Extension Theorem](/projects/hartogs) - In two or more complex variables a holomorphic function extends across a hole in its domain, which is why it can have no isolated singularities.
+- [Conformal Invariance of Brownian Motion](/projects/conformal) - Push Brownian motion through a conformal map and you get Brownian motion back, on a different clock. Lévy's theorem, plus a probabilistic proof of Liouville's.

@@ -4,63 +4,63 @@
 
 ## A Website to Host Book and Game Reviews in FastAPI and React
 
-[shutthehellupdaryan.com](https://shutthehellupdaryan.com/) is a media tracker for logging books and games, rating them in half stars, and reviewing them. Accounts are invite only: there is no signup route, and they are created through an admin endpoint or a command line script. The reviews themselves are publicly readable.
+[shutthehellupdaryan.com](https://shutthehellupdaryan.com/) is where my friends and I log books and games, rate them in half stars, and argue about them.
 
-The backend is FastAPI over PostgreSQL with an optional Redis cache. The frontend is a React single page application. It is deployed on Railway.
+The name is the point. It's Goodreads for a group of friends and nobody else, which is why there's no signup route and why one of the pages is a wall for slandering each other. Daryan is blocked from posting on it. The endpoint answers him with a 403 and "Nice try, Daryan." Everything below is what it took to make something that small feel fast.
+
+The backend is FastAPI over PostgreSQL with an optional Redis cache, the frontend is React, and it runs on Railway.
 
 ### Architecture
 
-FastAPI owns authentication, data access, the external API integrations, and asset serving. It renders exactly one Jinja template: a nineteen line shell that embeds a JSON bootstrap payload and the Vite manifest tags. React takes over from there, with all ten page components lazily loaded behind Suspense.
+FastAPI owns authentication, data access, the external API integrations, and asset serving. It renders exactly one Jinja template: a nineteen line shell holding a JSON bootstrap payload and the Vite manifest tags. React takes over from there, with all ten page components lazily loaded behind Suspense.
 
-The shell ships each page's data inline rather than leaving the client to fetch it after mount. The homepage HTML already contains the user cards, item cards, featured review, and CSRF token, and the client seeds that payload straight into its cache, so the first React render is a cache hit instead of a round trip. The same payload shape is served from an API endpoint for the Vite dev server, where no server rendered script tag exists.
+The shell ships each page's data inline. The homepage HTML already contains the user cards, item cards, featured review, and CSRF token, and the client seeds that payload straight into its cache. The first React render is a cache hit. The same payload shape comes from an API endpoint for the Vite dev server, where there's no server rendered script tag to read.
 
-Behind the routers are fourteen service modules and ten SQLAlchemy models. Routers are split by concern rather than by resource: the books router is a ten line aggregator over separate page, API, and mutation modules, which separates read handling from writes without changing any route paths.
+Behind the routers sit fourteen service modules and ten SQLAlchemy models. The routers are split by concern: the books router is a ten line aggregator over separate page, API and mutation modules, which keeps reads and writes apart without renaming a single route.
 
 ### Query Design
 
-The homepage and profile feeds need aggregates per user and per item: review counts, average ratings, items added, and the date of the most recent review. Each aggregate is computed by its own grouped subquery and joined onto the base table in a single pass, rather than being counted per row, so the feed does not turn into an N+1 as the number of users grows.
+The homepage and profile feeds need aggregates per user and per item: review counts, average ratings, items added, the date of the most recent review. Each one gets its own grouped subquery, joined onto the base table in a single pass. Adding users adds rows to the result and nothing to the query count.
 
-The startup script runs `alembic upgrade head` on every boot. The performance migrations inspect the live schema and skip any index that is already present, which keeps them from failing against a database where an index was created outside the migration chain or by a partially applied revision.
+The startup script runs `alembic upgrade head` on every boot. The performance migrations inspect the live schema and skip any index that's already there, which keeps them from failing against a database where an index arrived outside the migration chain.
 
 ### Caching
 
-The cache exposes one interface with two implementations, Redis in production and a process local dictionary with matching semantics as a fallback, selected once at first use after a ping.
+One interface, two implementations: Redis in production, and a process local dictionary with matching semantics when there's no cache URL or the ping fails. The choice happens once, at first use.
 
-Invalidation is by tag rather than by key pattern. Writing a cached value also records its key in a set, so invalidating a topic reads that set and deletes its members instead of scanning the keyspace. Tag sets carry an extra hour of expiry so orphaned entries clean themselves up.
+Invalidation works by tag. Writing a cached value also records its key in a set. Invalidating a topic reads that set and deletes its members. No keyspace scanning. Tag sets carry an extra hour of expiry so orphans clean themselves up.
 
-Cached payloads are deliberately user agnostic. The item blob and its paginated review list are cached once and shared by every reader; the fields that vary per viewer, their vote and their permissions on the item, are attached afterward with small queries. One cache entry then serves anonymous and signed in traffic alike.
+Cached payloads are user agnostic. The item blob and its paginated review list are cached once for everybody, and the parts that differ per viewer, their vote and their permissions, get attached afterward with small queries. One cache entry serves anonymous and signed in traffic alike.
 
-Invalidating the homepage, a profile, or the slander wall also schedules an immediate re-warm of that same view on a background thread, so the next reader does not pay for the miss. A periodic loop started from the application lifespan refreshes the homepage and a sample of recently touched profiles, pushing the blocking database work through a thread pool so the event loop stays free.
+Invalidating the homepage, a profile or the slander wall also fires a background re-warm of that same view, so the next reader doesn't eat the miss. A loop started from the application lifespan refreshes the homepage and a sample of recently touched profiles, pushing the blocking database work through a thread pool to keep the event loop free.
 
-### Correctness Details
+### The Parts That Needed Care
 
-Several paths required explicit handling.
+**Unique constraints hold under races.** Two people claiming the same sticky note slot, or a double submitted vote, both raise integrity errors. Each one is caught, rolled back, and turned into a status code that means something.
 
-**Unique constraints are enforced under races.** Two users claiming the same sticky note slot, and a double submitted vote, both raise integrity errors. Each is caught, rolled back, and returned as a meaningful status rather than a 500.
+**A circular foreign key gets unwound by hand.** Users point at their favorite, least favorite and current book, and those columns carry no cascade behavior. Deleting a book finds every user pinning it, clears those columns, flushes to force the ordering, then deletes.
 
-**A circular foreign key is unwound by hand.** Users point at their favorite, least favorite, and current book, and those columns carry no cascade behavior, so deleting a book first finds every user pinning it, clears those columns, flushes to force the ordering, and only then deletes.
+**Long passwords are pre-hashed.** bcrypt truncates silently at 72 bytes, so passwords go through SHA-256 and base64 first. The docstring cites the recommendation it came from.
 
-**Long passwords are pre-hashed.** bcrypt truncates silently at 72 bytes, so passwords are run through SHA-256 and base64 first, following the recommendation from the bcrypt maintainers.
-
-**Review markdown is rendered through an allowlist.** Bodies are rendered, sanitized against an explicit tag and protocol allowlist, then passed through a filter that replaces any image source not served by the CDN. The rendered HTML is cached keyed on the review's update timestamp, so editing a review invalidates it without an explicit bust.
+**Review markdown goes through an allowlist.** Bodies are rendered, sanitized against an explicit tag and protocol allowlist, then filtered to replace any image source not served by the CDN. The rendered HTML is cached against the review's update timestamp, so editing a review invalidates it without an explicit bust.
 
 ### The Client Data Layer
 
-The frontend uses no data fetching library. It has a small TTL cache, a hook that reads from it, and Zod schemas that validate the main payloads at the boundary, dispatched by URL pattern as responses come back.
+There's no data fetching library. A small TTL cache, a hook that reads from it, and Zod schemas validating the main payloads as they come back.
 
-Two details matter for correctness. The bootstrap payload is seeded during render behind a guard, because re-seeding on later renders would reset each entry's stored timestamp, freezing its TTL and overwriting freshly fetched data with the initial snapshot. And every request threads an abort signal that fires on key change or unmount, with the error and loading transitions suppressed once aborted, which is the usual source of state updates on unmounted components in a hand rolled layer.
+Two details matter. The bootstrap payload is seeded during render behind a guard, because re-seeding on later renders would reset each entry's stored timestamp, freeze its TTL, and overwrite freshly fetched data with the initial snapshot. And every request threads an abort signal that fires on key change or unmount. Once aborted, the error and loading transitions are suppressed. That's where a hand rolled data layer usually starts setting state on components that no longer exist.
 
-A suite of backend tests encodes the payload shapes the TypeScript validators expect, written as Python assertions mirroring them rather than by importing them. A response that drifts from that mirror fails in the backend suite instead of surfacing as a validation error in the browser.
+A suite of backend tests encodes the payload shapes the TypeScript validators expect, written as Python assertions mirroring them. A response that drifts from that mirror fails in the backend suite, not in somebody's browser.
 
 ### Instrumentation
 
-A small timing context manager wraps named database operations and logs their duration as labelled key and value pairs, and a middleware records request duration, cache backend, and a correlation ID for the handful of hot path prefixes. Logs are JSON in production and human readable in development, with the request ID echoed back as a response header.
+A timing context manager wraps named database operations and logs their duration as labelled key and value pairs. A middleware records request duration, cache backend and a correlation ID, but only for the handful of hot path prefixes. Logs are JSON in production and readable in development, with the request ID echoed back as a response header.
 
 ### Scale and Testing
 
-Sixty-one HTTP endpoints, twenty-eight of which change state, and every one of those twenty-eight validates a CSRF token. Ten models, forty-one Pydantic schemas, and eighteen migrations in a single linear chain.
+Sixty-one HTTP endpoints, twenty-eight of which change state, and every one of those twenty-eight validates a CSRF token. Ten models, forty-one Pydantic schemas, eighteen migrations in a single linear chain.
 
-The backend suite is 222 tests at 78% line coverage, and the frontend adds fourteen, of which eight render components and the rest cover the validators and bootstrap parsing. Both run as Railway build phases and gate the deploy. The application is roughly 8,600 lines of Python and 11,000 lines of TypeScript and CSS, with a further 5,200 lines of Python tests, across 232 commits.
+The backend suite is 222 tests at 78% line coverage. The frontend adds fourteen, of which eight render components and the rest cover the validators and bootstrap parsing. Both run as Railway build phases and gate the deploy. The application is roughly 8,600 lines of Python and 11,000 lines of TypeScript and CSS, with another 5,200 lines of Python tests, across 232 commits.
 
 ### Technologies Used
 

@@ -4,9 +4,9 @@
 
 ## An Agentic Coding Assistant Built on Google Gemini
 
-An agentic coding assistant written from scratch in about 380 lines of Python, with no agent framework. It gives the model four tools, listing a directory, reading a file, writing a file, and running a Python file, then lets it work on its own until it decides the task is done.
+An agentic coding assistant in about 380 lines of Python, with no agent framework. It gives the model four tools, listing a directory, reading a file, writing a file, and running a Python file, then lets it work until it decides the task is done.
 
-The goal was to understand the pattern by building it. Stripped of streaming, permissions, and subagents, an agent loop is a small thing: send the conversation, execute whatever tool calls come back, append the results, and send it again. Writing that by hand makes the design questions visible in a way that using a framework does not.
+I built it to understand the pattern. Strip out streaming, permissions and subagents and an agent loop is a small thing: send the conversation, run whatever tool calls come back, append the results, send it again. Writing that by hand puts the design questions in front of you.
 
 ### GitHub Repository
 
@@ -14,37 +14,35 @@ View the source code: [github.com/aidenament/Claude-Code-Reimplementation](https
 
 ### The Agent Loop
 
-Two nested loops. The outer one is a user turn; the inner one is the model working autonomously. Each model response is appended to the history, every tool call it contains is executed, and each result is appended as a tool message before the next request goes out.
+Two nested loops. The outer one is a user turn; the inner one is the model working on its own.
 
-Termination is inferred rather than declared. When a response comes back containing no tool calls, that is the signal that the model is finished: the loop prints its text and returns control to the user. This avoids inventing a dedicated "done" tool, at the cost that a model which is stuck looks exactly like a model which is finished.
+The loop never asks the model whether it's finished. When a response comes back with no tool calls in it, that's the signal: print the text and hand control back to the user. It saves inventing a "done" tool, and it costs you the ability to tell a model that's finished from a model that's stuck.
 
-The inner loop is bounded at twenty tool calls per turn. The bound is tested once per model request rather than once per call, so a response carrying several calls at once runs all of them and can finish slightly over the limit. On reaching it the loop reports that it stopped and returns to the prompt with the conversation history intact, so the work so far can be inspected and continued rather than discarded.
-
-Responses carrying several tool calls at once are fully serviced, with a separate result appended for each, so the model can request a directory listing and two file reads in one turn and get all three answers back.
+The inner loop stops at twenty tool calls. That bound gets tested once per model request, not once per call, so a response asking for a directory listing and two file reads runs all three and can finish slightly over. Hitting the limit isn't a failure. The loop says it stopped and returns to the prompt with the history intact, so you can look at what happened and tell it to keep going.
 
 ### Tool Design
 
-The results are shaped for a reader that is a language model rather than a person.
+Every tool result is written to be read by a model.
 
-**Errors are values, not exceptions.** Tools report their failures by returning a string rather than raising. A bad path comes back as an "Error: ..." string through the same channel as a successful result, so the model reads its own mistake and can correct course instead of the process terminating. The convention is not airtight: an unreadable directory still raises out of the listing, and because no schema marks its parameters required, a call that omits one fails inside the tool rather than returning a message the model could act on.
+**Errors are values.** Tools report failures by returning a string. A bad path comes back as "Error: ..." through the same channel as a success, so the model sees its own mistake and can recover. It isn't airtight. An unreadable directory still raises, and since no schema marks its parameters required, a call that omits one dies inside the tool.
 
-**Truncation is announced.** File reads are capped at 10,000 characters, and the notice is appended into the returned text rather than the content being silently cut short, so the model knows its view is partial.
+**Truncation is announced.** Reads stop at 10,000 characters and the notice goes into the returned text. Nothing gets cut silently.
 
-**Empty output gets a sentinel.** A script that prints nothing returns an explicit "No output produced" rather than an empty string, and a nonzero exit adds a line stating the exit code. Standard output and standard error are labelled separately, so a silent run is distinguishable from a run that produced nothing to say.
+**Empty output gets a sentinel.** A script that prints nothing returns "No output produced", and a nonzero exit adds a line with the exit code. Standard output and standard error are labelled separately.
 
-**Writes confirm what happened.** A successful write returns the path and the number of characters written, which the model can check against what it intended.
+**Writes confirm themselves.** A successful write returns the path and the character count, which the model can check against what it meant to write.
 
-**Listings degrade per entry.** Directory listings wrap the size and directory checks for each entry individually, so a single unreadable file becomes an inline error on that row instead of failing the whole listing.
+**Listings degrade per entry.** The size and directory checks are wrapped for each entry individually. One unreadable file becomes an error on that row and the rest of the listing survives.
 
-### Tool Declarations and Dispatch
+### Declarations and Dispatch
 
-The four tool schemas are hand written declarations, kept separately from the functions implementing them. There is no reflection over the Python signatures, so the schema and the implementation are maintained in parallel by hand. Dispatch is an explicit match on the tool name, and an unrecognized name returns an error result rather than raising.
+The four schemas are hand written, and they live in a different file from the functions implementing them. Nothing reflects over the Python signatures. The two have to be kept in step by hand. Dispatch is an explicit match on the tool name.
 
-The working directory root is deliberately absent from every tool schema. The model can name a path but never its base; the dispatcher supplies the root itself, so the root cannot be redefined by the model.
+The working directory root never appears in a tool schema. The model can name a path but not its base; the dispatcher supplies the root. The root isn't something the model can redefine.
 
-Each tool then resolves the requested path and compares it against that root before acting. The comparison is a string prefix test, which is the loose form of the check: a strict version would compare the common path of the two resolved paths, which is what correctly rejects a sibling directory sharing a name prefix, and would resolve symbolic links rather than normalizing them lexically.
+Each tool then resolves the path it was given and compares it against that root. The check is a string prefix test, which is the loose version: a root of /work/project also accepts /work/project-old. The strict version compares the common path of the two resolved paths, and resolves symbolic links instead of normalising them lexically.
 
-Execution runs the target file as a subprocess with the working directory as its starting point and a thirty second timeout, and only files ending in .py are eligible.
+Execution runs the target as a subprocess with the working directory as its starting point and a thirty second timeout. Only files ending in .py are eligible.
 
 ### Technologies Used
 

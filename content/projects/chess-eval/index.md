@@ -4,6 +4,8 @@
 
 ## Evaluating Out-of-Distribution Generalization with Chess Puzzles
 
+I built 300 checkmate puzzles with progressively stranger rules, a knight that leaps (1,3), a rook that runs out of steam after four squares, to test whether frontier models are good at chess or just good at chess they've already seen. They generalize fine. Mate depth is what hurts them, weird rules don't, and the model with much worse reasoning is just as flat across the variants as the strongest one.
+
 ### Links
 
 - [Results viewer](https://chess-eval-production.up.railway.app/) with all 300 puzzles, their prompts, every model answer, and the full reasoning traces
@@ -124,14 +126,14 @@ Furthermore, on the dashboard each rule for a modified puzzle is marked clearly 
 
 ### The Engine
 
-The report above is the experiment. The engine underneath it is written from scratch, in pure standard library Python, because a reference chess library cannot represent a knight that leaps (1,3).
+That's the experiment. The code under it is a chess engine I wrote from scratch in standard library Python, because no chess library can represent a knight that leaps (1,3).
 
-**Movement is data, not code.** Each piece's movement is a list of atoms: a leap to a fixed offset, or a ride along a direction with a range and a count of occupied squares it may pass over. A rule modification is a declarative patch on that table. Composing standard chess with a set of patches yields a ruleset, and its canonical serialization is hashed into a digest that serves as its identity.
+The thing that makes the rest work is that movement is a table, not code. Each piece gets a list of atoms: a leap to a fixed offset, or a ride along a direction with a range and a count of pieces it's allowed to pass over. A rule modification is a patch on that table, and standard chess plus a set of patches is just another ruleset. I hash the serialized ruleset and use the digest as its identity.
 
-**Attacks reduce to one predicate.** Check, checkmate, stalemate, pins, castling through check, and king flight squares all derive from a single question: does any capture-modality atom of the given side reach this square, under that atom's own jump and blocking semantics. It assumes nothing about standard geometry, so modifying a knight changes what counts as check with no code change anywhere.
+Attacks then reduce to one question: does any capturing atom on this side reach this square, under its own jump and blocking rules? Check, checkmate, stalemate, pins, castling through check and king flight squares all fall out of that predicate, which assumes nothing about normal geometry. Change how the knight moves and check changes with it, without touching any code.
 
-**The ruleset digest salts the solver's memoization.** Ablation means removing a rule and re-solving. If the memo table were not keyed by ruleset digest, that re-solve could hit an entry computed under the original rules.
+The digest also salts the solver's memo table, which matters more than it sounds. Ablation means pulling a rule out and re-solving, and if the digest isn't in the memo key, that re-solve can hit an entry computed under the original rules.
 
-**A second solver checks the first.** A separate checker re-derives every puzzle's classification with a deliberately naive search, no memoization and no shared state, and produces a concrete refutation for every alternative first move rather than just asserting the solution is unique.
+A second, deliberately dumb solver checks the first: no memoization, no shared state, and it produces an actual refutation for every alternative first move instead of just declaring the solution unique.
 
-The suite is 198 tests, including published perft counts, move-for-move cross-validation against python-chess on hundreds of random positions plus fixtures for the cases engines get wrong, and a property test that the fast attack index and a naive scan agree across every square, both sides, sixty positions, and thirty-two rulesets. python-chess appears only in the tests, as a standard-rules oracle.
+198 tests. Published perft counts, move-for-move cross-validation against python-chess on hundreds of random positions plus fixtures for the cases engines get wrong, and a property test that the fast attack index and a naive scan agree across every square, both sides, 60 positions and 32 rulesets. python-chess shows up only in the tests, as a standard-rules oracle.
