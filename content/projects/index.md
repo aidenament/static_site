@@ -16,5 +16,3 @@ Welcome to my projects page! Here you'll find a collection of my work in mathema
 ### Software Development
 
 - [Claude Code Reimplementation](/projects/claude-code-reimplementation) - An AI-powered development assistant reimplemented with Gemini AI for Python development and file system operations.
-- [Story Teller AI](/projects/story-teller) - An interactive AI-powered storytelling application featuring Boop Boop the Storytelling Elephant for children aged 5-10.
-- [Gator RSS Aggregator](/projects/gator) - A command-line RSS feed aggregator written in Go with multi-user support and automatic content aggregation.
