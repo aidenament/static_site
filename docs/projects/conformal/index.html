@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Conformal Invariance of Brownian Motion</title>
+    <title>Conformal Mapping Techniques</title>
     <meta name="description" content="Aiden Ament — machine learning engineer working on AI security, UCLA math and computer science graduate, and former UCLA rower." />
     <meta name="author" content="Aiden Ament" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Conformal Invariance of Brownian Motion" />
+    <meta property="og:title" content="Conformal Mapping Techniques" />
     <meta property="og:description" content="Aiden Ament — machine learning engineer working on AI security, UCLA math and computer science graduate, and former UCLA rower." />
     <meta property="og:image" content="https://aidenament.com/images/headshot.webp" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -19,14 +19,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="/index.css?v=bd507f2a" rel="stylesheet" />
-    <script>
-      window.MathJax = { options: { enableMenu: false } };
-    </script>
-    <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </head>
 
   <body>
-    <article><div><h1>Conformal Invariance of Brownian Motion</h1><p><a href="/projects">< Back to Projects</a></p><h2>Lévy's Theorem, and a Probabilistic Proof of Liouville's Theorem</h2><p>Push a complex Brownian motion through a conformal map and what comes out is a Brownian motion again, running on a different clock. That's Lévy's theorem: if <span class="math-inline">\(f : U \to V\)</span> is conformal and <span class="math-inline">\(B_t\)</span> is a complex Brownian motion started at <span class="math-inline">\(z_0\)</span>, then</p><div class="math-display">\[f(B_t) = \tilde{B}_{\sigma(t)}, \qquad \sigma(t) = \int_0^t |f'(B_s)|^2 \, ds\]</div><p>That time change is the substance of the theorem. Stated without it, the claim is false.</p><p>This is an expository paper. It assumes complex analysis and probability but no prior exposure to stochastic processes, and develops the theory it needs before proving the result, largely following Lawler's <i>Conformally Invariant Processes in the Plane</i>. The last section turns the theorem around and gets Liouville's theorem out of it.</p><p>Brownian paths are almost surely nowhere differentiable, so ordinary calculus can't describe them. Quadratic variation is what replaces it, giving the identity <span class="math-inline">\((dB_t)^2 = dt\)</span> and, from that, Itô's formula.</p><p>From there, conformal invariance rests on two facts about a holomorphic <span class="math-inline">\(f = u + iv\)</span>. Harmonicity of <span class="math-inline">\(u\)</span> and <span class="math-inline">\(v\)</span> kills the <span class="math-inline">\(dt\)</span> term, leaving both as martingales. Their quadratic variation evaluates to <span class="math-inline">\(\int_0^t |f'(B_s)|^2 ds\)</span>, which is exactly the time change Dubins-Schwarz needs. Conformality is more than the argument uses: any nonconstant holomorphic <span class="math-inline">\(f\)</span> will do, since the zeros of <span class="math-inline">\(f'\)</span> cannot accumulate.</p><p>The closing section runs the machinery backwards. If <span class="math-inline">\(f\)</span> were a bounded nonconstant entire function, then <span class="math-inline">\(f(B_t)\)</span> would be a bounded Brownian motion, and Brownian motion is almost surely unbounded. Liouville's theorem falls out, with no Cauchy estimates anywhere.</p><p>Written in March 2024, during the complex analysis course I took with Professor Tao.</p><h3>The Full Paper</h3><p>Read it below, or <a href="/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf">download it directly</a>.</p><div class="pdf-embed"><a class="pdf-embed-link" href="/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf">Open the PDF</a></div></div></article>
+    <article><div><h1>Conformal Mapping Techniques</h1><p><a href="/projects">< Back to Projects</a></p><h2>Lévy's Theorem, and a Probabilistic Proof of Liouville's Theorem</h2><p>Push a complex Brownian motion through a conformal map and what comes out is a Brownian motion again, running on a different clock. That is Lévy's theorem, and the change of clock is the substance of it. The paper builds up the machinery it needs, proves the result, then turns it around to get Liouville's theorem out of probability instead of complex analysis.</p><p>Written in March 2024, during the complex analysis course I took with Professor Tao.</p><h3>The Full Paper</h3><p>Read it below, or <a href="/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf">download it directly</a>.</p><div class="pdf-embed"><a class="pdf-embed-link" href="/projects/conformal/Conformal_Invariance_of_Brownian_Motion.pdf">Open the PDF</a></div></div></article>
     <script type="module" src="/pdf-embed.js?v=4af84931"></script>
   </body>
 </html>

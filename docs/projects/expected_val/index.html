@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Expected Distance to the Nearest Face of an n-Cube</title>
+    <title>Expected Value of A Random Point in a Square to its Nearest Edge</title>
     <meta name="description" content="Aiden Ament — machine learning engineer working on AI security, UCLA math and computer science graduate, and former UCLA rower." />
     <meta name="author" content="Aiden Ament" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Expected Distance to the Nearest Face of an n-Cube" />
+    <meta property="og:title" content="Expected Value of A Random Point in a Square to its Nearest Edge" />
     <meta property="og:description" content="Aiden Ament — machine learning engineer working on AI security, UCLA math and computer science graduate, and former UCLA rower." />
     <meta property="og:image" content="https://aidenament.com/images/headshot.webp" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -19,14 +19,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="/index.css?v=bd507f2a" rel="stylesheet" />
-    <script>
-      window.MathJax = { options: { enableMenu: false } };
-    </script>
-    <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </head>
 
   <body>
-    <article><div><h1>Expected Distance to the Nearest Face of an n-Cube</h1><p><a href="/projects">< Back to Projects</a></p><h2>One Closed Form for Every Dimension</h2><p>Drop a point at random inside a unit square. How far is it from the nearest edge? The answer is <span class="math-inline">\(1/6\)</span>, the same argument gives <span class="math-inline">\(1/8\)</span> for the cube, and it generalizes to a single closed form in every dimension:</p><div class="math-display">\[\mathbb{E}[X] = \frac{1}{2(n+1)}\]</div><p>The paper does the square and the cube by hand, then the general case. The proof partitions the cube by which face is nearest, then subdivides each region so that symmetry makes every piece integrate to the same value. An <span class="math-inline">\(n\)</span>-cube has <span class="math-inline">\(2n\)</span> faces of dimension <span class="math-inline">\(n-1\)</span>, and the region belonging to each face splits into <span class="math-inline">\(2^{n-1}(n-1)!\)</span> congruent pieces. Evaluate one piece and multiply through.</p><p>The formula also says something about where volume sits in high dimensions. <span class="math-inline">\(\mathbb{E}[X]\)</span> shrinks as <span class="math-inline">\(n\)</span> grows, so more and more of the cube lies near its boundary. That part isn't new, and it follows more directly from <span class="math-inline">\((1-\epsilon)^n \to 0\)</span> for any fixed <span class="math-inline">\(\epsilon &gt; 0\)</span>. What the expectation gives you is the rate. It goes like <span class="math-inline">\(1/n\)</span>, so halving the expected distance to the boundary costs you roughly a doubling of the dimension.</p><p>The problem came from my Math 170A final. I worked out the general case afterward, in July 2023.</p><h3>The Full Paper</h3><p>Read it below, or <a href="/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf">download it directly</a>.</p><div class="pdf-embed"><a class="pdf-embed-link" href="/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf">Open the PDF</a></div></div></article>
+    <article><div><h1>Expected Value of A Random Point in a Square to its Nearest Edge</h1><p><a href="/projects">< Back to Projects</a></p><h2>One Closed Form for Every Dimension</h2><p>Drop a point at random inside a unit square. How far is it from the nearest edge? The paper does the square, then the cube, then every dimension at once, and closes with what the answer says about how much of a high-dimensional cube sits near its boundary.</p><p>The problem came from my Math 170A final. I worked out the general case afterward, in July 2023.</p><h3>The Full Paper</h3><p>Read it below, or <a href="/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf">download it directly</a>.</p><div class="pdf-embed"><a class="pdf-embed-link" href="/projects/expected_val/Expected_Distance_of_a_Random_Interior_Point_of_an_n_cube_to_its_nearest_face.pdf">Open the PDF</a></div></div></article>
     <script type="module" src="/pdf-embed.js?v=4af84931"></script>
   </body>
 </html>
