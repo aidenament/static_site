@@ -31,6 +31,6 @@ After graduation I joined a small startup as a **machine learning engineer** wor
 
 ![Kingdoms of Death](/images/kingdoms-of-death.webp)
 
-In my free time I like to read fantasy and science fiction novels. I fell out of the habit of reading for fun in high school and college, until **The Wheel of Time** by Robert Jordan rekindled my love of reading and storytelling. Since then, I've been reading through both genres and made a [Goodreads knockoff](https://shutthehellupdaryan.com/) to review books with my friends.
+In my free time I like to read fantasy and science fiction novels. I fell out of the habit of reading for fun in high school and college. Just after graduating, I picked up **The Wheel of Time** by Robert Jordan, and it rekindled my love of reading and storytelling. Since then, I've been reading through both genres and made a [Goodreads knockoff](https://shutthehellupdaryan.com/) to review books with my friends.
 
 Want to hire me? [Contact me here](/contact).
