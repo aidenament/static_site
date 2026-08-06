@@ -8,13 +8,13 @@ A collection of my work in mathematics, machine learning, and software.
 
 ### Machine Learning & Software
 
-- [Epoch Chess Eval](/projects/chess-eval) - 300 checkmate puzzles under progressively stranger rules, to test whether frontier models are good at chess or just good at chess they've seen before. They generalize fine; mate depth is what hurts them.
-- [Goodreads for Friends](/projects/goodreads) - A books and games review site at shutthehellupdaryan.com, built with FastAPI and React for a group of friends and nobody else.
-- [Claude Code Reimplementation](/projects/claude-code-reimplementation) - Four tools and a while loop on Gemini, written without a framework to see what an agent loop actually is.
+- [Epoch Chess Eval](/projects/chess-eval) - A set of 300 checkmate puzzles with increasingly unusual rules. Models adapted to the new rules fairly well, but struggled when the mating lines got longer.
+- [Goodreads for Friends](/projects/goodreads) - A book and game review site I built for a group of friends using FastAPI and React.
+- [Claude Code Reimplementation](/projects/claude-code-reimplementation) - A small coding agent built on Gemini.
 
 ### Mathematics
 
-- [Sum of Uniform Random Variables](/projects/uniform_sum) - How many random numbers from [0, 1] do you need to add before the total passes 1? The answer is e, and there's no exponential anywhere in the setup.
-- [Expected Distance to the Nearest Face of an n-Cube](/projects/expected_val) - Drop a point in a unit square and it sits 1/6 from the nearest edge. One closed form covers every dimension, and it says something about where volume goes as n grows.
-- [Hartogs' Extension Theorem](/projects/hartogs) - In two or more complex variables a holomorphic function extends across a hole in its domain, which is why it can have no isolated singularities.
-- [Conformal Invariance of Brownian Motion](/projects/conformal) - Push Brownian motion through a conformal map and you get Brownian motion back, on a different clock. Lévy's theorem, plus a probabilistic proof of Liouville's.
+- [Sum of Uniform Random Variables](/projects/uniform_sum) - How many random numbers from $[0,1]$ do you need to add before the sum exceeds 1? On average, $e$.
+- [Expected Distance to the Nearest Face of an n-Cube](/projects/expected_val) - A calculation of the expected distance from a random point in an $n$-cube to its nearest face. In two dimensions, the answer is $1/6$.
+- [Hartogs' Extension Theorem](/projects/hartogs) - A proof that holomorphic functions of several complex variables cannot have isolated singularities.
+- [Conformal Invariance of Brownian Motion](/projects/conformal) - A proof that conformal maps preserve Brownian motion up to a change of time, followed by a probabilistic proof of Liouville's theorem.
